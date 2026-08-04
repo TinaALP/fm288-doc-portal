@@ -245,7 +245,7 @@ const SECTIONS = [
       { t:'07-28 全家專案跨部門會議 — 摘要', d:'跨部門會議決議、待辦與負責人。', fmt:'pdf', up:'2026-07-28', url:'' },
       { t:'07-28 全家廠商大會 Session 1 — 摘要', d:'廠商大會第一場：進倉規範宣達與問答摘要。', fmt:'pdf', up:'2026-07-29', url:'' },
       { t:'07-29 全家廠商大會 Session 2 — 摘要', d:'廠商大會第二場：作業細節與過渡期安排摘要。', fmt:'pdf', up:'2026-07-29', url:'' },
-      { t:'全家廠商大會 — 廠商問題彙整', d:'廠商現場提問彙整與回覆狀態追蹤。', fmt:'xlsx', up:'2026-07-30', url:'' },
+      { t:'全家廠商大會 — 廠商問題彙整', d:'廠商現場提問彙整、統一回覆與待確認狀態（含入庫棧板規格議題）。', fmt:'xlsx', up:'2026-08-04', url:'https://alpglobal-my.sharepoint.com/personal/tina_chen_alp_global/Documents/FamilyMart/%5B全家288+%5D%20跨部門資共享/全家廠商大會_廠商問題彙整.xlsx' },
       { t:'0706 全家 IT 會議紀錄', d:'IT 系統串接會議：介接範圍、責任分工與時程。', fmt:'md', up:'2026-07-07', url:'' }
     ]},
 
@@ -254,14 +254,16 @@ const SECTIONS = [
     groups:[
 
       { code:'a', zh:'時程總表', docs:[
-        { t:'全家288+ 里程碑與 WBS 整合表', d:'M0–M8 里程碑追蹤、WBS 明細、上線就緒清單、依賴鏈。專案進度單一真實來源。', fmt:'xlsx', up:'2026-07-14', url:'' },
+        { t:'全家288+ 專案跨部門整合時程', d:'里程碑追蹤 roll-up 與各部門、外部單位（全家／日翊／ASC）的時程對照。跨部門對焦以此為基準。', fmt:'xlsx', up:'2026-08-04', url:'https://alpglobal-my.sharepoint.com/personal/tina_chen_alp_global/Documents/FamilyMart/%5B全家288+%5D%20跨部門資共享/全家288+專案_跨部門整合時程.xlsx' },
+        { t:'全家288+ 里程碑與 WBS 整合表', d:'M0–M8 里程碑追蹤、WBS 明細、上線就緒清單、依賴鏈。專案進度單一真實來源。', fmt:'xlsx', up:'2026-07-14', url:'https://alpglobal-my.sharepoint.com/personal/tina_chen_alp_global/Documents/FamilyMart/288+/SCO專案管理/全家288+/全家288+_里程碑與WBS_整合.xlsx' },
+        { t:'FamilyMart 288+ 日營運時間軸', d:'一日營運的時間軸：拋檔、撥貨、揀貨、出車各段時點。', fmt:'xlsx', up:'2026-07-14', url:'https://alpglobal-my.sharepoint.com/personal/tina_chen_alp_global/Documents/FamilyMart/288+/SCO專案管理/全家288+/FamilyMart%20288+%20日營運時間軸.xlsx' },
+        { t:'全家288+ 進度更新（7/30）', d:'對外進度簡報，摘要當期完成事項、風險與下一步。', fmt:'pptx', up:'2026-07-30', url:'https://alpglobal-my.sharepoint.com/personal/tina_chen_alp_global/Documents/Powerpoint/全家288+_進度更新_0730.pptx' },
         { t:'全家288+ 時程總覽（時間軸）', d:'上線前衝刺時間軸，含 SIT、SOP 定版、教學、UAT 各關卡日期。', fmt:'md', up:'2026-07-14', url:'' },
-        { t:'全家288+ 專案跨部門時程整合', d:'各部門與外部單位（全家／日翊／ASC）工作項目的時程對照。', fmt:'xlsx', up:'2026-07-10', url:'' },
-        { t:'全家專案 WBS 甘特圖', d:'WBS 甘特視覺化，與里程碑追蹤表同步維護。', fmt:'md', up:'2026-07-13', url:'' },
-        { t:'全家288+ 進度更新', d:'對外進度簡報，摘要當期完成事項、風險與下一步。', fmt:'pptx', up:'2026-07-30', url:'' }
+        { t:'全家專案 WBS 甘特圖', d:'WBS 甘特視覺化，與里程碑追蹤表同步維護。', fmt:'md', up:'2026-07-13', url:'' }
       ]},
 
       { code:'b', zh:'8月 UAT 計畫', docs:[
+        { t:'八月 UAT 測試計劃', d:'ASC 聯合測試計畫 8/03–8/31：逐日項目、預計步驟與預計成果，含林口倉參訪與教育訓練。', fmt:'xlsx', up:'2026-08-04', url:'https://alpglobal-my.sharepoint.com/personal/tina_chen_alp_global/Documents/FamilyMart/%5B全家288+%5D%20跨部門資共享/八月UAT測試計劃.xlsx' },
         { t:'FM288 測試計劃書 v1', d:'測試範圍、環境、角色分工、進出場條件與排程。', fmt:'md', up:'2026-07-21', url:'' },
         { t:'FM288 測試案例表 v1', d:'逐案測試步驟、預期結果與執行紀錄欄位。', fmt:'xlsx', up:'2026-07-21', url:'' }
       ]},
@@ -271,12 +273,12 @@ const SECTIONS = [
       ]},
 
       { code:'d', zh:'待與營運追蹤議題', docs:[
-        { t:'A1 各作業區域追蹤議題', d:'依作業區域彙整的待辦與待確認議題，含負責人與狀態。', fmt:'xlsx', up:'2026-07-17', url:'' }
+        { t:'A1 各作業區域追蹤議題', d:'依作業區域彙整的待辦與待確認議題，含負責人與狀態。', fmt:'xlsx', up:'2026-08-04', url:'https://alpglobal-my.sharepoint.com/personal/tina_chen_alp_global/Documents/FamilyMart/%5B全家288+%5D%20跨部門資共享/00_A1%20各作業區域追蹤議題_260717.xlsx' }
       ]},
 
       { code:'e', zh:'待與 IT 追蹤議題', docs:[
-        { t:'待與 IT 追蹤議題', d:'IT 系統相關待確認事項與回覆狀態。', fmt:'xlsx', up:'—', url:'' },
-        { t:'全家288+ 通知情境清單', d:'系統間通知與例外告警的情境、觸發條件與收件對象。', fmt:'xlsx', up:'2026-07-16', url:'' }
+        { t:'全家288+ 通知情境清單', d:'系統間通知與例外告警的情境、觸發條件與收件對象。', fmt:'xlsx', up:'2026-07-22', url:'https://alpglobal-my.sharepoint.com/personal/tina_chen_alp_global/Documents/FamilyMart/288+/SCO專案管理/全家288+/全家288+_通知情境清單.xlsx' },
+        { t:'待與 IT 追蹤議題', d:'IT 系統相關待確認事項與回覆狀態。', fmt:'xlsx', up:'—', url:'' }
       ]},
 
       { code:'f', zh:'待與 TEL 追蹤議題', docs:[
@@ -305,7 +307,7 @@ const SECTIONS = [
   { code:'4', zh:'進倉規範與系統操作', en:'Vendor Rules & Systems',
     blurb:'供應商與廠商必讀。包裝、棧板、標籤與預約規範，以及採購系統操作方式。',
     docs:[
-      { t:'ASC 全家進倉規範', d:'自動化倉進倉條件：棧板、堆疊高度、標籤、外箱與預約規則。', fmt:'pptx', up:'2026-06-15', url:'' },
+      { t:'ASC 進貨規範（供應商大會版 v3）', d:'給供應商的最新進倉規範：棧板、堆疊高度、標籤、外箱與預約規則。以此版為準。', fmt:'pptx', up:'2026-07-06', url:'https://alpglobal-my.sharepoint.com/personal/tina_chen_alp_global/Documents/FamilyMart/288+/SCO專案管理/全家288+/ASC%20進貨規範%20for%20供應商大會_v3_260706.pptx' },
       { t:'ALP 全家採購系統操作手冊 v2.2', d:'採購系統登入、單據建立與查詢的操作步驟。', fmt:'pdf', up:'2026-06-02', url:'' },
       { t:'SALS 系統介紹', d:'自動化倉儲系統（SALS）能力與架構介紹。', fmt:'pdf', up:'2026-07-22', url:'' }
     ]},
@@ -314,7 +316,9 @@ const SECTIONS = [
     blurb:'待各方確認或決議的提案。若你被指派為某項議題的回覆窗口，請由此進入。',
     docs:[
       { t:'進貨棧板規格衝突 — 提案書', d:'棧板規格與自動倉需求衝突的完整分析、方案比較與建議。', fmt:'pdf', up:'2026-08-03', url:'' },
-      { t:'進貨棧板規格衝突 — 一頁摘要', d:'給決策者的一頁版：問題、選項、建議與所需決議。', fmt:'pdf', up:'2026-08-03', url:'' }
+      { t:'進貨棧板規格衝突 — 一頁摘要', d:'給決策者的一頁版：問題、選項、建議與所需決議。', fmt:'pdf', up:'2026-08-03', url:'' },
+      { t:'OMEGA2 事前確認事項 — 回覆表', d:'日方事前確認題目與 ALP 逐題回覆（含 BCP、停電與地震應變）。', fmt:'xlsx', up:'2026-07-23', url:'https://alpglobal-my.sharepoint.com/personal/tina_chen_alp_global/Documents/FamilyMart/%5B全家288+%5D%20跨部門資共享/OMEGA2事前確認事項_回覆表.xlsx' },
+      { t:'[SCO x ALP] 全家專案流程與議題', d:'各流程 PIC、SOP 進度與 C01 異形料架等待辦議題。', fmt:'pptx', up:'2026-07-10', url:'https://alpglobal-my.sharepoint.com/personal/tina_chen_alp_global/Documents/FamilyMart/288+/%5BSCO%20x%20ALP%5D%20全家專案流程與議題.pptx' }
     ]},
 
   { code:'6', zh:'基準資料與範本', en:'Master Data & Templates',
