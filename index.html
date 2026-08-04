@@ -119,13 +119,17 @@ a{color:inherit}
 .secbody{padding-bottom:34px}
 .sec .blurb{margin:0 0 14px; font-size:.85rem; color:var(--grey-1); max-width:62ch}
 
-.tools{display:flex; gap:16px; margin-top:10px}
+.tools{display:flex; gap:10px; margin-top:14px}
 .tools button{
-  font:inherit; font-family:var(--mono); font-size:.7rem; letter-spacing:.06em;
-  text-transform:uppercase; color:var(--grey-1); background:none;
-  border:1px solid var(--rule); padding:5px 10px; cursor:pointer;
+  display:inline-flex; align-items:center; gap:7px;
+  font:inherit; font-size:.875rem; font-weight:600; color:var(--ink);
+  background:var(--raise); border:1.5px solid var(--ink);
+  padding:9px 16px; cursor:pointer;
+  transition:background .12s, color .12s;
 }
-.tools button:hover{color:var(--ink); border-color:var(--focus)}
+.tools button .ic{font-size:.75rem; line-height:1}
+.tools button:hover{background:var(--signal); border-color:var(--ink)}
+.tools button:active{transform:translateY(1px)}
 
 .grp{margin-top:26px; scroll-margin-top:24px}
 .grp > h3{
@@ -202,7 +206,6 @@ footer{
       <strong>此入口供全家、日翊、ASC 與 ALP 專案成員使用。</strong>
       文件本體存放於 ALP OneDrive，點擊標題於新視窗開啟；若顯示沒有權限，請向 ALP 專案窗口
       <a href="mailto:tina.chen@alp.global">tina.chen@alp.global</a> 申請。
-      合約、財務與內部對焦文件不在此入口，另循個別管道提供。
     </span>
   </p>
 
@@ -217,8 +220,8 @@ footer{
         <input id="q" type="search" placeholder="搜尋文件名稱、用途或分類…" autocomplete="off" aria-label="搜尋文件">
         <div class="hint" id="hint"></div>
         <div class="tools">
-          <button type="button" id="expand-all">展開全部</button>
-          <button type="button" id="collapse-all">收合全部</button>
+          <button type="button" id="expand-all"><span class="ic" aria-hidden="true">▼</span>展開所有分類</button>
+          <button type="button" id="collapse-all"><span class="ic" aria-hidden="true">▲</span>收合所有分類</button>
         </div>
       </div>
       <div id="list"></div>
@@ -295,7 +298,13 @@ const SECTIONS = [
       ]}
     ]},
 
-  { code:'3', zh:'其他參考資料', en:'Reference',
+  { code:'3', zh:'合約', en:'Contracts',
+    blurb:'機密文件，僅供獲授權人員閱覽，請勿轉發。',
+    docs:[
+      { t:'2026 物流年度委託契約書（永聯）', d:'機密。作業品質責任、權利義務、勞務處理費、缺貨標準與違約金、盤點原則、物流作業規範。', fmt:'docx', up:'2026-04-23', url:'https://alpglobal-my.sharepoint.com/:w:/r/personal/tina_chen_alp_global/_layouts/15/Doc.aspx?sourcedoc=%7BE0B5AEAC-1782-449D-A5DF-AC0683803DAD%7D&file=2026%E7%89%A9%E6%B5%81%E5%B9%B4%E5%BA%A6%E5%A7%94%E8%A8%97%E5%A5%91%E7%B4%84%E6%9B%B8_%E6%B0%B8%E8%81%AF-20260426.docx&action=default&mobileredirect=true' }
+    ]},
+
+  { code:'4', zh:'其他參考資料', en:'Reference',
     blurb:'進倉規範、對外回覆表與其他輔助文件。',
     docs:[
       { t:'全家廠商大會 — 廠商問題彙整', d:'廠商現場提問彙整、統一回覆與待確認狀態（含入庫棧板規格議題）。', fmt:'xlsx', up:'2026-08-04', url:'https://alpglobal-my.sharepoint.com/personal/tina_chen_alp_global/Documents/FamilyMart/%5B全家288+%5D%20跨部門資共享/全家廠商大會_廠商問題彙整.xlsx' },
