@@ -106,20 +106,41 @@ a{color:inherit}
   letter-spacing:.06em; color:var(--grey-2);
 }
 
-.sec{margin-bottom:52px; scroll-margin-top:24px}
-.sec > h2{
+.sec{border-bottom:1px solid var(--rule); scroll-margin-top:16px}
+.sec > summary{
   display:flex; align-items:baseline; gap:12px; flex-wrap:wrap;
-  margin:0 0 4px; font-size:1.0625rem; font-weight:700; letter-spacing:-.01em;
+  padding:16px 0; cursor:pointer; list-style:none;
+  font-size:1.0625rem; font-weight:700; letter-spacing:-.01em;
 }
-.sec > h2 .code{
+.sec > summary::-webkit-details-marker{display:none}
+.sec > summary:hover .stitle{box-shadow:inset 0 -2px 0 var(--signal)}
+.sec > summary .chev{
+  font-family:var(--mono); font-size:.7rem; font-weight:400; color:var(--grey-2);
+  display:inline-block; transition:transform .15s;
+}
+.sec[open] > summary .chev{transform:rotate(90deg)}
+.sec > summary .code{
   font-family:var(--mono); font-size:.7rem; font-weight:400; letter-spacing:.1em;
   color:var(--ink); background:var(--signal); padding:3px 8px;
 }
-.sec > h2 .en{
+.sec > summary .en{
   font-family:var(--mono); font-size:.68rem; font-weight:400;
   letter-spacing:.1em; text-transform:uppercase; color:var(--grey-2);
 }
+.sec > summary .cnt{
+  margin-left:auto; font-family:var(--mono); font-size:.72rem; font-weight:400;
+  color:var(--grey-2); font-variant-numeric:tabular-nums; white-space:nowrap;
+}
+.secbody{padding-bottom:34px}
 .sec .blurb{margin:0 0 14px; font-size:.85rem; color:var(--grey-1); max-width:62ch}
+
+.tools{display:flex; gap:16px; margin-top:10px}
+.tools button{
+  font:inherit; font-family:var(--mono); font-size:.7rem; letter-spacing:.06em;
+  text-transform:uppercase; color:var(--grey-1); background:none;
+  border:1px solid var(--rule); padding:5px 10px; cursor:pointer;
+}
+.tools button:hover{color:var(--ink); border-color:var(--focus)}
 
 .grp{margin-top:26px; scroll-margin-top:24px}
 .grp > h3{
@@ -131,8 +152,7 @@ a{color:inherit}
   border:1px solid var(--rule); padding:1px 6px;
 }
 
-.rows{border-top:1px solid var(--ink)}
-.grp .rows{border-top:1px solid var(--rule)}
+.rows{border-top:1px solid var(--rule)}
 .row{
   display:grid; grid-template-columns:1fr 78px 96px; gap:8px 20px; align-items:baseline;
   padding:14px 0; border-bottom:1px solid var(--rule); text-decoration:none;
@@ -211,6 +231,10 @@ footer{
       <div class="search">
         <input id="q" type="search" placeholder="搜尋文件名稱、用途或分類…" autocomplete="off" aria-label="搜尋文件">
         <div class="hint" id="hint"></div>
+        <div class="tools">
+          <button type="button" id="expand-all">展開全部</button>
+          <button type="button" id="collapse-all">收合全部</button>
+        </div>
       </div>
       <div id="list"></div>
       <footer>
@@ -249,7 +273,8 @@ const SECTIONS = [
       { t:'0706 全家 IT 會議紀錄', d:'IT 系統串接會議：介接範圍、責任分工與時程。', fmt:'md', up:'2026-07-07', url:'' }
     ]},
 
-  { code:'2', zh:'追蹤', en:'Tracking',
+  /* open:true = 預設展開這一類；把 open:true 刪掉就變成預設收合 */
+  { code:'2', zh:'追蹤', en:'Tracking', open:true,
     blurb:'進度與待決議事項的追蹤主檔。每週對焦以此為基準，各單位待回覆項目分列於下。',
     groups:[
 
@@ -382,6 +407,9 @@ function rowHTML(d){
     : `<div class="row pending">${inner}</div>`;
 }
 
+/* 哪些分類目前是展開的（搜尋時一律全開） */
+const openCodes = new Set(SECTIONS.filter(s => s.open).map(s => s.code));
+
 function render(term){
   const t = term.trim().toLowerCase();
   const match = (d, sec, grp) =>
@@ -393,7 +421,8 @@ function render(term){
       .map(b => ({ sec:b.sec, grp:b.grp, docs: t ? b.docs.filter(d => match(d, sec, b.grp)) : b.docs }))
       .filter(b => b.docs.length);
     if (!blocks.length) return '';
-    shown += blocks.reduce((a,b) => a + b.docs.length, 0);
+    const n = blocks.reduce((a,b) => a + b.docs.length, 0);
+    shown += n;
 
     const body = blocks.map(b => b.grp
       ? `<div class="grp" id="${grpId(sec,b.grp)}">
@@ -403,20 +432,59 @@ function render(term){
       : `<div class="rows">${b.docs.map(rowHTML).join('')}</div>`
     ).join('');
 
-    return `<section class="sec" id="${secId(sec)}">
-      <h2><span class="code">${sec.code}</span>${esc(sec.zh)}${sec.en ? `<span class="en">${esc(sec.en)}</span>` : ''}</h2>
-      ${t ? '' : `<p class="blurb">${esc(sec.blurb)}</p>`}
-      ${body}
-    </section>`;
+    const pend = blocks.reduce((a,b) => a + b.docs.filter(d => !d.url).length, 0);
+    const open = t ? true : openCodes.has(sec.code);
+
+    return `<details class="sec" id="${secId(sec)}"${open ? ' open' : ''}>
+      <summary>
+        <span class="chev" aria-hidden="true">▸</span>
+        <span class="code">${sec.code}</span>
+        <span class="stitle">${esc(sec.zh)}</span>
+        ${sec.en ? `<span class="en">${esc(sec.en)}</span>` : ''}
+        <span class="cnt">${n} 筆${pend ? `・${pend} 待補` : ''}</span>
+      </summary>
+      <div class="secbody">
+        ${t ? '' : `<p class="blurb">${esc(sec.blurb)}</p>`}
+        ${body}
+      </div>
+    </details>`;
   }).join('');
 
   listEl.innerHTML = html ||
     `<p class="empty">找不到符合「${esc(term)}」的文件。試試「SOP」、「棧板」、「UAT」或「進貨」。</p>`;
   hintEl.textContent = t ? `符合 ${shown} 筆` : `共 ${allDocs.length} 筆，分 ${SECTIONS.length} 類`;
+
+  /* 記住使用者手動展開／收合的狀態（搜尋中不記錄） */
+  listEl.querySelectorAll('details.sec').forEach(d => {
+    d.addEventListener('toggle', () => {
+      if (qEl.value.trim()) return;
+      const code = d.id.slice(4);
+      d.open ? openCodes.add(code) : openCodes.delete(code);
+    });
+  });
 }
 
 qEl.addEventListener('input', e => render(e.target.value));
+document.getElementById('expand-all').addEventListener('click', () => {
+  SECTIONS.forEach(s => openCodes.add(s.code)); render(qEl.value);
+});
+document.getElementById('collapse-all').addEventListener('click', () => {
+  openCodes.clear(); render(qEl.value);
+});
 render('');
+
+/* ── 側欄點擊：先展開該分類再捲動 ────────────────────────── */
+const smooth = !matchMedia('(prefers-reduced-motion: reduce)').matches;
+railEl.addEventListener('click', e => {
+  const a = e.target.closest('a');
+  if (!a) return;
+  e.preventDefault();
+  const id = a.dataset.id;
+  openCodes.add(id.slice(4, 5));
+  render(qEl.value);
+  const target = document.getElementById(id);
+  if (target) target.scrollIntoView({ behavior: smooth ? 'smooth' : 'auto', block:'start' });
+});
 
 /* ── rail active state ──────────────────────────────────── */
 const links = [...railEl.querySelectorAll('a')];
