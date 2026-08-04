@@ -7,29 +7,14 @@
 <title>全家 288+ 專案文件入口｜FamilyMart 288+ Document Portal</title>
 <style>
 /* ── tokens ─────────────────────────────────────────────── */
+/* 固定淺色模式：不隨系統深色設定變化 */
 :root{
+  color-scheme:light;
   --paper:#FBFAF6; --raise:#F4F2EA; --ink:#17150E;
   --grey-1:#6B6759; --grey-2:#9C9789; --rule:#E2DDD0;
   --signal:#E8C400; --focus:#B89A00;
   --sans:"PingFang TC","Hiragino Sans","Noto Sans TC","Microsoft JhengHei",-apple-system,"Segoe UI",Roboto,sans-serif;
   --mono:ui-monospace,"SF Mono",Menlo,"Cascadia Mono","Roboto Mono",monospace;
-}
-@media (prefers-color-scheme:dark){
-  :root{
-    --paper:#121109; --raise:#1C1A12; --ink:#F1EEE4;
-    --grey-1:#9A9486; --grey-2:#6C6759; --rule:#2B2921;
-    --signal:#FFD41F; --focus:#FFD41F;
-  }
-}
-:root[data-theme="dark"]{
-  --paper:#121109; --raise:#1C1A12; --ink:#F1EEE4;
-  --grey-1:#9A9486; --grey-2:#6C6759; --rule:#2B2921;
-  --signal:#FFD41F; --focus:#FFD41F;
-}
-:root[data-theme="light"]{
-  --paper:#FBFAF6; --raise:#F4F2EA; --ink:#17150E;
-  --grey-1:#6B6759; --grey-2:#9C9789; --rule:#E2DDD0;
-  --signal:#E8C400; --focus:#B89A00;
 }
 
 *,*::before,*::after{box-sizing:border-box}
@@ -311,47 +296,12 @@ const SECTIONS = [
       ]}
     ]},
 
-  { code:'3', zh:'流程圖與作業 SOP', en:'Flows & Procedures',
-    blurb:'先看總流程圖確認自己負責的段落落在哪個環節，再進 SOP 看細節。SOP 7/31 定版，現場教學與 UAT 皆以定版為依據。',
-    docs:[
-      { t:'全家288+ 六大總流程圖', d:'採購、進貨、出貨、退貨、運輸、調撥六大流程互動總覽圖。', fmt:'html', up:'2026-07-09', url:'' },
-      { t:'進貨總流程', d:'從供應商預約進倉到上架完成的端到端流程圖。', fmt:'html', up:'2026-07-07', url:'' },
-      { t:'出貨總流程', d:'從訂單接收、揀貨、複核到配送出車的端到端流程圖。', fmt:'html', up:'2026-07-07', url:'' },
-      { t:'進貨作業 SOP（Inbound）', d:'預約、到車、卸貨、驗收、上架與異常處理。', fmt:'md', up:'2026-06-15', url:'' },
-      { t:'出貨作業 SOP（Outbound）', d:'訂單下放、揀貨、複核、集貨、裝車與交接。', fmt:'md', up:'2026-06-15', url:'' },
-      { t:'採購作業 SOP（Purchase）', d:'補貨建議、採購單建立、MOQ 與交期控管、到貨追蹤。', fmt:'md', up:'2026-06-13', url:'' },
-      { t:'退貨作業 SOP（Returns）', d:'店退、廠退分流、驗收判定與退貨出庫。', fmt:'md', up:'2026-06-13', url:'' },
-      { t:'運輸作業 SOP（Transport）', d:'路線與時間窗安排、配送交接、回單與異常回報。', fmt:'md', up:'2026-06-13', url:'' },
-      { t:'FM288 商品調撥 SOP — 單一時間窗方案', d:'調撥作業採單一收單時間窗的流程版本。與雙時間窗版並列供決策比較。', fmt:'pdf', up:'2026-07-14', url:'' },
-      { t:'FM288 商品調撥 SOP — 雙時間窗方案', d:'調撥作業採兩段收單時間窗的流程版本。', fmt:'pdf', up:'2026-07-14', url:'' },
-      { t:'W-01 商品驗收上架', d:'現場作業指導書：驗收與上架的逐步操作與圖示。', fmt:'pdf', up:'2026-06-15', url:'' },
-      { t:'W-05 人工出庫作業（異型品）', d:'現場作業指導書：無法自動化處理的異型品人工出庫。', fmt:'pdf', up:'2026-06-15', url:'' },
-      { t:'SOP 建置流程範本', d:'撰寫與改版 SOP 的格式與審核流程範本。', fmt:'md', up:'2026-06-13', url:'' }
-    ]},
-
-  { code:'4', zh:'進倉規範與系統操作', en:'Vendor Rules & Systems',
-    blurb:'供應商與廠商必讀。包裝、棧板、標籤與預約規範，以及採購系統操作方式。',
+  { code:'3', zh:'其他參考資料', en:'Reference',
+    blurb:'進倉規範、對外回覆表與其他輔助文件。',
     docs:[
       { t:'ASC 進貨規範（供應商大會版 v3）', d:'給供應商的最新進倉規範：棧板、堆疊高度、標籤、外箱與預約規則。以此版為準。', fmt:'pptx', up:'2026-07-06', url:'https://alpglobal-my.sharepoint.com/personal/tina_chen_alp_global/Documents/FamilyMart/288+/SCO專案管理/全家288+/ASC%20進貨規範%20for%20供應商大會_v3_260706.pptx' },
-      { t:'ALP 全家採購系統操作手冊 v2.2', d:'採購系統登入、單據建立與查詢的操作步驟。', fmt:'pdf', up:'2026-06-02', url:'' },
-      { t:'SALS 系統介紹', d:'自動化倉儲系統（SALS）能力與架構介紹。', fmt:'pdf', up:'2026-07-22', url:'' }
-    ]},
-
-  { code:'5', zh:'議題與提案', en:'Issues & Proposals',
-    blurb:'待各方確認或決議的提案。若你被指派為某項議題的回覆窗口，請由此進入。',
-    docs:[
-      { t:'進貨棧板規格衝突 — 提案書', d:'棧板規格與自動倉需求衝突的完整分析、方案比較與建議。', fmt:'pdf', up:'2026-08-03', url:'' },
-      { t:'進貨棧板規格衝突 — 一頁摘要', d:'給決策者的一頁版：問題、選項、建議與所需決議。', fmt:'pdf', up:'2026-08-03', url:'' },
       { t:'OMEGA2 事前確認事項 — 回覆表', d:'日方事前確認題目與 ALP 逐題回覆（含 BCP、停電與地震應變）。', fmt:'xlsx', up:'2026-07-23', url:'https://alpglobal-my.sharepoint.com/personal/tina_chen_alp_global/Documents/FamilyMart/%5B全家288+%5D%20跨部門資共享/OMEGA2事前確認事項_回覆表.xlsx' },
       { t:'[SCO x ALP] 全家專案流程與議題', d:'各流程 PIC、SOP 進度與 C01 異形料架等待辦議題。', fmt:'pptx', up:'2026-07-10', url:'https://alpglobal-my.sharepoint.com/personal/tina_chen_alp_global/Documents/FamilyMart/288+/%5BSCO%20x%20ALP%5D%20全家專案流程與議題.pptx' }
-    ]},
-
-  { code:'6', zh:'基準資料與範本', en:'Master Data & Templates',
-    blurb:'系統串接與資料清洗的基準檔。回填範本請下載後填寫，勿更動欄位順序。',
-    docs:[
-      { t:'全家商品清單', d:'商品主檔基準版，含 FM_CODE 與品項屬性。', fmt:'xlsx', up:'2026-07-06', url:'' },
-      { t:'全家商品清單（分類版）', d:'依溫層與品類分類後的商品清單。', fmt:'xlsx', up:'2026-07-07', url:'' },
-      { t:'全家配送清單回填範本', d:'店舖名稱、地址、時間窗、蜜鄰等欄位的標準回填格式。', fmt:'xlsx', up:'2026-06-30', url:'' }
     ]}
 ];
 /* ▲▲▲ 以上是唯一需要編輯的區塊，以下是頁面程式，不用動 ▲▲▲ */
