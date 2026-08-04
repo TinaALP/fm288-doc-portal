@@ -8,15 +8,9 @@
 <style>
 /* ── tokens ─────────────────────────────────────────────── */
 :root{
-  --paper:#FBFAF6;
-  --raise:#F4F2EA;
-  --ink:#17150E;
-  --grey-1:#6B6759;
-  --grey-2:#9C9789;
-  --rule:#E2DDD0;
-  --signal:#E8C400;
-  --signal-soft:#F7E9A0;
-  --focus:#B89A00;
+  --paper:#FBFAF6; --raise:#F4F2EA; --ink:#17150E;
+  --grey-1:#6B6759; --grey-2:#9C9789; --rule:#E2DDD0;
+  --signal:#E8C400; --focus:#B89A00;
   --sans:"PingFang TC","Hiragino Sans","Noto Sans TC","Microsoft JhengHei",-apple-system,"Segoe UI",Roboto,sans-serif;
   --mono:ui-monospace,"SF Mono",Menlo,"Cascadia Mono","Roboto Mono",monospace;
 }
@@ -24,18 +18,18 @@
   :root{
     --paper:#121109; --raise:#1C1A12; --ink:#F1EEE4;
     --grey-1:#9A9486; --grey-2:#6C6759; --rule:#2B2921;
-    --signal:#FFD41F; --signal-soft:#4A3E00; --focus:#FFD41F;
+    --signal:#FFD41F; --focus:#FFD41F;
   }
 }
 :root[data-theme="dark"]{
   --paper:#121109; --raise:#1C1A12; --ink:#F1EEE4;
   --grey-1:#9A9486; --grey-2:#6C6759; --rule:#2B2921;
-  --signal:#FFD41F; --signal-soft:#4A3E00; --focus:#FFD41F;
+  --signal:#FFD41F; --focus:#FFD41F;
 }
 :root[data-theme="light"]{
   --paper:#FBFAF6; --raise:#F4F2EA; --ink:#17150E;
   --grey-1:#6B6759; --grey-2:#9C9789; --rule:#E2DDD0;
-  --signal:#E8C400; --signal-soft:#F7E9A0; --focus:#B89A00;
+  --signal:#E8C400; --focus:#B89A00;
 }
 
 *,*::before,*::after{box-sizing:border-box}
@@ -48,7 +42,6 @@ body{
 a{color:inherit}
 :focus-visible{outline:2px solid var(--focus); outline-offset:3px}
 
-/* ── shell ──────────────────────────────────────────────── */
 .shell{max-width:1180px; margin:0 auto; padding:0 24px 96px}
 
 .masthead{
@@ -60,14 +53,12 @@ a{color:inherit}
   letter-spacing:-.02em; line-height:1.15; text-wrap:balance;
 }
 .masthead .en{
-  display:block; margin-top:6px;
-  font-family:var(--mono); font-size:.75rem; font-weight:400;
+  display:block; margin-top:6px; font-family:var(--mono); font-size:.75rem;
   letter-spacing:.14em; text-transform:uppercase; color:var(--grey-1);
 }
 .stats{
-  display:flex; gap:28px; margin-left:auto;
-  font-family:var(--mono); font-size:.7rem; letter-spacing:.1em;
-  text-transform:uppercase; color:var(--grey-1);
+  display:flex; gap:28px; margin-left:auto; font-family:var(--mono);
+  font-size:.7rem; letter-spacing:.1em; text-transform:uppercase; color:var(--grey-1);
 }
 .stats b{
   display:block; font-family:var(--sans); font-size:1.5rem; font-weight:700;
@@ -75,15 +66,13 @@ a{color:inherit}
 }
 
 .notice{
-  display:flex; gap:14px; align-items:flex-start;
-  margin-top:28px; padding:16px 18px;
+  display:flex; gap:14px; align-items:flex-start; margin-top:28px; padding:16px 18px;
   background:var(--raise); border-left:4px solid var(--signal);
   font-size:.875rem; color:var(--grey-1);
 }
 .notice strong{color:var(--ink); font-weight:600}
 
-/* ── body grid ──────────────────────────────────────────── */
-.grid{display:grid; grid-template-columns:210px 1fr; gap:56px; margin-top:44px}
+.grid{display:grid; grid-template-columns:220px 1fr; gap:56px; margin-top:44px}
 
 .rail{position:sticky; top:32px; align-self:start}
 .rail .label{
@@ -92,13 +81,14 @@ a{color:inherit}
   padding-bottom:10px; border-bottom:1px solid var(--rule);
 }
 .rail ol{list-style:none; margin:0; padding:8px 0 0}
+.rail ol ol{padding:0 0 4px}
 .rail a{
-  display:grid; grid-template-columns:22px 1fr auto; gap:8px; align-items:baseline;
-  padding:7px 0 7px 10px; margin-left:-14px;
-  border-left:4px solid transparent;
+  display:grid; grid-template-columns:20px 1fr auto; gap:8px; align-items:baseline;
+  padding:7px 0 7px 10px; margin-left:-14px; border-left:4px solid transparent;
   text-decoration:none; font-size:.875rem; color:var(--grey-1);
   transition:color .15s, border-color .15s;
 }
+.rail a.sub{font-size:.8125rem; padding:4px 0 4px 26px}
 .rail a:hover{color:var(--ink)}
 .rail a.on{color:var(--ink); border-left-color:var(--signal); font-weight:600}
 .rail .code,.rail .n{font-family:var(--mono); font-size:.72rem; color:var(--grey-2)}
@@ -107,8 +97,7 @@ a{color:inherit}
 .search{margin-bottom:36px}
 .search input{
   width:100%; padding:12px 14px; font:inherit; font-size:.95rem;
-  color:var(--ink); background:var(--raise);
-  border:1px solid var(--rule); border-radius:0;
+  color:var(--ink); background:var(--raise); border:1px solid var(--rule); border-radius:0;
 }
 .search input::placeholder{color:var(--grey-2)}
 .search input:focus{outline:none; border-color:var(--focus); box-shadow:inset 0 -2px 0 var(--signal)}
@@ -117,28 +106,36 @@ a{color:inherit}
   letter-spacing:.06em; color:var(--grey-2);
 }
 
-/* ── sections & rows ───────────────────────────────────── */
-.aisle{margin-bottom:52px; scroll-margin-top:24px}
-.aisle > h2{
+.sec{margin-bottom:52px; scroll-margin-top:24px}
+.sec > h2{
   display:flex; align-items:baseline; gap:12px; flex-wrap:wrap;
   margin:0 0 4px; font-size:1.0625rem; font-weight:700; letter-spacing:-.01em;
 }
-.aisle > h2 .code{
+.sec > h2 .code{
   font-family:var(--mono); font-size:.7rem; font-weight:400; letter-spacing:.1em;
-  color:var(--ink); background:var(--signal); padding:3px 7px;
+  color:var(--ink); background:var(--signal); padding:3px 8px;
 }
-.aisle > h2 .en{
+.sec > h2 .en{
   font-family:var(--mono); font-size:.68rem; font-weight:400;
   letter-spacing:.1em; text-transform:uppercase; color:var(--grey-2);
 }
-.aisle .blurb{margin:0 0 14px; font-size:.85rem; color:var(--grey-1); max-width:62ch}
+.sec .blurb{margin:0 0 14px; font-size:.85rem; color:var(--grey-1); max-width:62ch}
+
+.grp{margin-top:26px; scroll-margin-top:24px}
+.grp > h3{
+  display:flex; align-items:baseline; gap:10px; margin:0 0 6px;
+  font-size:.9375rem; font-weight:600; letter-spacing:-.005em;
+}
+.grp > h3 .code{
+  font-family:var(--mono); font-size:.7rem; font-weight:400; color:var(--grey-1);
+  border:1px solid var(--rule); padding:1px 6px;
+}
 
 .rows{border-top:1px solid var(--ink)}
+.grp .rows{border-top:1px solid var(--rule)}
 .row{
-  display:grid; grid-template-columns:1fr 78px 96px;
-  gap:8px 20px; align-items:baseline;
-  padding:14px 0; border-bottom:1px solid var(--rule);
-  text-decoration:none;
+  display:grid; grid-template-columns:1fr 78px 96px; gap:8px 20px; align-items:baseline;
+  padding:14px 0; border-bottom:1px solid var(--rule); text-decoration:none;
 }
 a.row:hover{background:var(--raise)}
 a.row:hover .t{box-shadow:inset 0 -2px 0 var(--signal)}
@@ -158,7 +155,6 @@ a.row:hover .t{box-shadow:inset 0 -2px 0 var(--signal)}
   text-transform:uppercase; color:var(--grey-1);
   border:1px solid var(--rule); vertical-align:1px;
 }
-
 .empty{padding:40px 0; color:var(--grey-1); font-size:.9rem}
 
 footer{
@@ -170,7 +166,8 @@ footer{
 @media (max-width:860px){
   .grid{grid-template-columns:1fr; gap:32px}
   .rail{position:static}
-  .rail ol{display:flex; flex-wrap:wrap; gap:4px 16px}
+  .rail > ol{display:flex; flex-wrap:wrap; gap:4px 16px}
+  .rail ol ol{display:none}
   .rail a{border-left:none; border-bottom:3px solid transparent; margin-left:0; padding:6px 0}
   .rail a.on{border-bottom-color:var(--signal)}
   .row{grid-template-columns:1fr auto}
@@ -212,8 +209,7 @@ footer{
 
     <main>
       <div class="search">
-        <label class="sr" for="q" hidden>搜尋文件</label>
-        <input id="q" type="search" placeholder="搜尋文件名稱、用途或分類…" autocomplete="off">
+        <input id="q" type="search" placeholder="搜尋文件名稱、用途或分類…" autocomplete="off" aria-label="搜尋文件">
         <div class="hint" id="hint"></div>
       </div>
       <div id="list"></div>
@@ -226,32 +222,74 @@ footer{
 </div>
 
 <script>
-/* ═══════════════════════════════════════════════════════════
-   填連結就改這裡：把每筆的 url 換成 OneDrive 分享連結即可。
-   url 留空字串 = 尚未提供連結，該列會顯示「待補連結」且不可點。
-   ═══════════════════════════════════════════════════════════ */
-const AISLES = [
-  { code:'A', zh:'專案總覽與進度', en:'Programme & Schedule',
-    blurb:'掌握整體時程、里程碑 M0–M8 與各部門進度的主檔。跨部門會議以此為基準。',
+/* ═══════════════════════════════════════════════════════════════════════
+   ▼▼▼ 要新增／修改／刪除文件，只改下面這一段 SECTIONS ▼▼▼
+
+   每一筆文件就是一行，五個欄位：
+     { t:'標題', d:'一句話用途', fmt:'pdf', up:'2026-08-04', url:'貼上OneDrive連結' }
+
+   • 改連結：把 url:'' 的兩個引號之間貼上連結
+   • url 空著 → 該列顯示灰色「待補連結」且不可點
+   • 還沒有更新日期 → up:'—'
+   • 新增一筆：複製任一整行 { … },  改內容（注意行尾逗號要留著）
+   • 刪除一筆：把整行 { … }, 刪掉
+   • 新增分類：複製一整個 { code:…, zh:…, en:…, blurb:…, docs:[ … ] } 區塊
+   • 引號內若要用單引號，寫成 \'
+   ═══════════════════════════════════════════════════════════════════════ */
+const SECTIONS = [
+
+  { code:'1', zh:'會議紀錄', en:'Meeting Minutes',
+    blurb:'決議留存。以會議紀錄與需求文件作為口頭共識的書面依據。',
     docs:[
-      { t:'全家288+ 里程碑與 WBS 整合表', d:'M0–M8 里程碑追蹤、WBS 明細、上線就緒清單、依賴鏈。專案進度單一真實來源。', fmt:'xlsx', up:'2026-07-14', url:'' },
-      { t:'全家288+ 進度更新', d:'對外進度簡報，摘要當期完成事項、風險與下一步。', fmt:'pptx', up:'2026-07-30', url:'' },
-      { t:'全家288+ 時程總覽（時間軸）', d:'上線前衝刺時間軸，含 SIT、SOP 定版、教學、UAT 各關卡日期。', fmt:'md', up:'2026-07-14', url:'' },
-      { t:'全家288+ 專案跨部門時程整合', d:'各部門與外部單位（全家／日翊／ASC）工作項目的時程對照。', fmt:'xlsx', up:'2026-07-10', url:'' },
-      { t:'全家專案 WBS 甘特圖', d:'WBS 甘特視覺化，與里程碑追蹤表同步維護。', fmt:'md', up:'2026-07-13', url:'' }
+      { t:'全家288+ 需求文件 v1', d:'專案需求彙整，系統與作業需求的書面基準。', fmt:'docx', up:'2026-07-30', url:'' },
+      { t:'07-28 全家專案跨部門會議 — 摘要', d:'跨部門會議決議、待辦與負責人。', fmt:'pdf', up:'2026-07-28', url:'' },
+      { t:'07-28 全家廠商大會 Session 1 — 摘要', d:'廠商大會第一場：進倉規範宣達與問答摘要。', fmt:'pdf', up:'2026-07-29', url:'' },
+      { t:'07-29 全家廠商大會 Session 2 — 摘要', d:'廠商大會第二場：作業細節與過渡期安排摘要。', fmt:'pdf', up:'2026-07-29', url:'' },
+      { t:'全家廠商大會 — 廠商問題彙整', d:'廠商現場提問彙整與回覆狀態追蹤。', fmt:'xlsx', up:'2026-07-30', url:'' },
+      { t:'0706 全家 IT 會議紀錄', d:'IT 系統串接會議：介接範圍、責任分工與時程。', fmt:'md', up:'2026-07-07', url:'' }
     ]},
 
-  { code:'B', zh:'總流程圖', en:'End-to-End Flows',
-    blurb:'六大流程的全景圖。先看這裡確認自己負責的段落落在哪個環節，再進 SOP 看細節。',
+  { code:'2', zh:'追蹤', en:'Tracking',
+    blurb:'進度與待決議事項的追蹤主檔。每週對焦以此為基準，各單位待回覆項目分列於下。',
+    groups:[
+
+      { code:'a', zh:'時程總表', docs:[
+        { t:'全家288+ 里程碑與 WBS 整合表', d:'M0–M8 里程碑追蹤、WBS 明細、上線就緒清單、依賴鏈。專案進度單一真實來源。', fmt:'xlsx', up:'2026-07-14', url:'' },
+        { t:'全家288+ 時程總覽（時間軸）', d:'上線前衝刺時間軸，含 SIT、SOP 定版、教學、UAT 各關卡日期。', fmt:'md', up:'2026-07-14', url:'' },
+        { t:'全家288+ 專案跨部門時程整合', d:'各部門與外部單位（全家／日翊／ASC）工作項目的時程對照。', fmt:'xlsx', up:'2026-07-10', url:'' },
+        { t:'全家專案 WBS 甘特圖', d:'WBS 甘特視覺化，與里程碑追蹤表同步維護。', fmt:'md', up:'2026-07-13', url:'' },
+        { t:'全家288+ 進度更新', d:'對外進度簡報，摘要當期完成事項、風險與下一步。', fmt:'pptx', up:'2026-07-30', url:'' }
+      ]},
+
+      { code:'b', zh:'8月 UAT 計畫', docs:[
+        { t:'FM288 測試計劃書 v1', d:'測試範圍、環境、角色分工、進出場條件與排程。', fmt:'md', up:'2026-07-21', url:'' },
+        { t:'FM288 測試案例表 v1', d:'逐案測試步驟、預期結果與執行紀錄欄位。', fmt:'xlsx', up:'2026-07-21', url:'' }
+      ]},
+
+      { code:'c', zh:'設備追蹤議題', docs:[
+        { t:'設備追蹤議題 — 16 節點總清單', d:'16 個設備節點的待確認議題、負責人與狀態。', fmt:'xlsx', up:'—', url:'' }
+      ]},
+
+      { code:'d', zh:'待與營運追蹤議題', docs:[
+        { t:'A1 各作業區域追蹤議題', d:'依作業區域彙整的待辦與待確認議題，含負責人與狀態。', fmt:'xlsx', up:'2026-07-17', url:'' }
+      ]},
+
+      { code:'e', zh:'待與 IT 追蹤議題', docs:[
+        { t:'待與 IT 追蹤議題', d:'IT 系統相關待確認事項與回覆狀態。', fmt:'xlsx', up:'—', url:'' },
+        { t:'全家288+ 通知情境清單', d:'系統間通知與例外告警的情境、觸發條件與收件對象。', fmt:'xlsx', up:'2026-07-16', url:'' }
+      ]},
+
+      { code:'f', zh:'待與 TEL 追蹤議題', docs:[
+        { t:'待與 TEL 追蹤議題', d:'TEL 負責範圍的待確認事項與回覆狀態。', fmt:'xlsx', up:'—', url:'' }
+      ]}
+    ]},
+
+  { code:'3', zh:'流程圖與作業 SOP', en:'Flows & Procedures',
+    blurb:'先看總流程圖確認自己負責的段落落在哪個環節，再進 SOP 看細節。SOP 7/31 定版，現場教學與 UAT 皆以定版為依據。',
     docs:[
       { t:'全家288+ 六大總流程圖', d:'採購、進貨、出貨、退貨、運輸、調撥六大流程互動總覽圖。', fmt:'html', up:'2026-07-09', url:'' },
       { t:'進貨總流程', d:'從供應商預約進倉到上架完成的端到端流程圖。', fmt:'html', up:'2026-07-07', url:'' },
-      { t:'出貨總流程', d:'從訂單接收、揀貨、複核到配送出車的端到端流程圖。', fmt:'html', up:'2026-07-07', url:'' }
-    ]},
-
-  { code:'C', zh:'作業 SOP', en:'Operating Procedures',
-    blurb:'各作業別標準流程，7/31 定版。現場教學與 UAT 皆以定版 SOP 為依據。',
-    docs:[
+      { t:'出貨總流程', d:'從訂單接收、揀貨、複核到配送出車的端到端流程圖。', fmt:'html', up:'2026-07-07', url:'' },
       { t:'進貨作業 SOP（Inbound）', d:'預約、到車、卸貨、驗收、上架與異常處理。', fmt:'md', up:'2026-06-15', url:'' },
       { t:'出貨作業 SOP（Outbound）', d:'訂單下放、揀貨、複核、集貨、裝車與交接。', fmt:'md', up:'2026-06-15', url:'' },
       { t:'採購作業 SOP（Purchase）', d:'補貨建議、採購單建立、MOQ 與交期控管、到貨追蹤。', fmt:'md', up:'2026-06-13', url:'' },
@@ -264,7 +302,7 @@ const AISLES = [
       { t:'SOP 建置流程範本', d:'撰寫與改版 SOP 的格式與審核流程範本。', fmt:'md', up:'2026-06-13', url:'' }
     ]},
 
-  { code:'D', zh:'進倉規範與系統操作', en:'Vendor Rules & Systems',
+  { code:'4', zh:'進倉規範與系統操作', en:'Vendor Rules & Systems',
     blurb:'供應商與廠商必讀。包裝、棧板、標籤與預約規範，以及採購系統操作方式。',
     docs:[
       { t:'ASC 全家進倉規範', d:'自動化倉進倉條件：棧板、堆疊高度、標籤、外箱與預約規則。', fmt:'pptx', up:'2026-06-15', url:'' },
@@ -272,65 +310,63 @@ const AISLES = [
       { t:'SALS 系統介紹', d:'自動化倉儲系統（SALS）能力與架構介紹。', fmt:'pdf', up:'2026-07-22', url:'' }
     ]},
 
-  { code:'E', zh:'測試與上線', en:'Testing & Go-Live',
-    blurb:'UAT 與四方聯合測試的依據文件。測試前請先確認案例表版本。',
-    docs:[
-      { t:'FM288 測試計劃書 v1', d:'測試範圍、環境、角色分工、進出場條件與排程。', fmt:'md', up:'2026-07-21', url:'' },
-      { t:'FM288 測試案例表 v1', d:'逐案測試步驟、預期結果與執行紀錄欄位。', fmt:'xlsx', up:'2026-07-21', url:'' },
-      { t:'全家288+ 通知情境清單', d:'系統間通知與例外告警的情境、觸發條件與收件對象。', fmt:'xlsx', up:'2026-07-16', url:'' }
-    ]},
-
-  { code:'F', zh:'議題與提案', en:'Open Issues & Proposals',
-    blurb:'待各方確認或決議的項目。若你被指派為某項議題的回覆窗口，請由此進入。',
+  { code:'5', zh:'議題與提案', en:'Issues & Proposals',
+    blurb:'待各方確認或決議的提案。若你被指派為某項議題的回覆窗口，請由此進入。',
     docs:[
       { t:'進貨棧板規格衝突 — 提案書', d:'棧板規格與自動倉需求衝突的完整分析、方案比較與建議。', fmt:'pdf', up:'2026-08-03', url:'' },
-      { t:'進貨棧板規格衝突 — 一頁摘要', d:'給決策者的一頁版：問題、選項、建議與所需決議。', fmt:'pdf', up:'2026-08-03', url:'' },
-      { t:'A1 各作業區域追蹤議題', d:'依作業區域彙整的待辦與待確認議題，含負責人與狀態。', fmt:'xlsx', up:'2026-07-17', url:'' }
+      { t:'進貨棧板規格衝突 — 一頁摘要', d:'給決策者的一頁版：問題、選項、建議與所需決議。', fmt:'pdf', up:'2026-08-03', url:'' }
     ]},
 
-  { code:'G', zh:'基準資料與範本', en:'Master Data & Templates',
+  { code:'6', zh:'基準資料與範本', en:'Master Data & Templates',
     blurb:'系統串接與資料清洗的基準檔。回填範本請下載後填寫，勿更動欄位順序。',
     docs:[
       { t:'全家商品清單', d:'商品主檔基準版，含 FM_CODE 與品項屬性。', fmt:'xlsx', up:'2026-07-06', url:'' },
       { t:'全家商品清單（分類版）', d:'依溫層與品類分類後的商品清單。', fmt:'xlsx', up:'2026-07-07', url:'' },
       { t:'全家配送清單回填範本', d:'店舖名稱、地址、時間窗、蜜鄰等欄位的標準回填格式。', fmt:'xlsx', up:'2026-06-30', url:'' }
-    ]},
-
-  { code:'H', zh:'會議與大會紀錄', en:'Minutes & Requirements',
-    blurb:'決議留存。以會議紀錄與需求文件為口頭共識的書面依據。',
-    docs:[
-      { t:'全家288+ 需求文件 v1', d:'專案需求彙整，系統與作業需求的書面基準。', fmt:'docx', up:'2026-07-30', url:'' },
-      { t:'07-28 全家專案跨部門會議 — 摘要', d:'跨部門會議決議、待辦與負責人。', fmt:'pdf', up:'2026-07-28', url:'' },
-      { t:'07-28 全家廠商大會 Session 1 — 摘要', d:'廠商大會第一場：進倉規範宣達與問答摘要。', fmt:'pdf', up:'2026-07-29', url:'' },
-      { t:'07-29 全家廠商大會 Session 2 — 摘要', d:'廠商大會第二場：作業細節與過渡期安排摘要。', fmt:'pdf', up:'2026-07-29', url:'' },
-      { t:'全家廠商大會 — 廠商問題彙整', d:'廠商現場提問彙整與回覆狀態追蹤。', fmt:'xlsx', up:'2026-07-30', url:'' },
-      { t:'0706 全家 IT 會議紀錄', d:'IT 系統串接會議：介接範圍、責任分工與時程。', fmt:'md', up:'2026-07-07', url:'' }
     ]}
 ];
+/* ▲▲▲ 以上是唯一需要編輯的區塊，以下是頁面程式，不用動 ▲▲▲ */
 
-/* ── render ─────────────────────────────────────────────── */
+/* ── helpers ────────────────────────────────────────────── */
 const railEl = document.getElementById('rail');
 const listEl = document.getElementById('list');
 const qEl    = document.getElementById('q');
 const hintEl = document.getElementById('hint');
 
-const allDocs = AISLES.flatMap(a => a.docs);
+function blocksOf(sec){
+  return sec.groups
+    ? sec.groups.map(g => ({ sec, grp:g, docs:g.docs }))
+    : [{ sec, grp:null, docs:sec.docs }];
+}
+const allDocs = SECTIONS.flatMap(blocksOf).flatMap(b => b.docs);
 const pending = allDocs.filter(d => !d.url).length;
-const latest  = allDocs.map(d => d.up).sort().pop();
+const dates   = allDocs.map(d => d.up).filter(u => /^\d{4}-\d{2}-\d{2}$/.test(u)).sort();
+const latest  = dates.length ? dates[dates.length - 1] : null;
 
 document.getElementById('stat-total').textContent = allDocs.length;
-document.getElementById('stat-cat').textContent   = AISLES.length;
-document.getElementById('stat-date').textContent  = latest.slice(5).replace('-','/');
+document.getElementById('stat-cat').textContent   = SECTIONS.length;
+document.getElementById('stat-date').textContent  = latest ? latest.slice(5).replace('-','/') : '—';
 document.getElementById('foot-pending').textContent =
   pending ? `${pending} / ${allDocs.length} 筆尚待補上 OneDrive 連結` : `全部 ${allDocs.length} 筆連結已就緒`;
 
-railEl.innerHTML = AISLES.map(a => `
-  <li><a href="#aisle-${a.code}" data-code="${a.code}">
-    <span class="code">${a.code}</span><span>${a.zh}</span><span class="n">${a.docs.length}</span>
-  </a></li>`).join('');
+function esc(s){ return String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])); }
+function secId(sec){ return `sec-${sec.code}`; }
+function grpId(sec,grp){ return `sec-${sec.code}${grp.code}`; }
 
-function esc(s){ return s.replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])); }
+/* ── rail ───────────────────────────────────────────────── */
+railEl.innerHTML = SECTIONS.map(sec => {
+  const n = sec.groups ? sec.groups.reduce((a,g) => a + g.docs.length, 0) : sec.docs.length;
+  const subs = sec.groups ? `<ol>${sec.groups.map(g => `
+    <li><a class="sub" href="#${grpId(sec,g)}" data-id="${grpId(sec,g)}">
+      <span class="code">${g.code}</span><span>${esc(g.zh)}</span><span class="n">${g.docs.length}</span>
+    </a></li>`).join('')}</ol>` : '';
+  return `<li>
+    <a href="#${secId(sec)}" data-id="${secId(sec)}">
+      <span class="code">${sec.code}</span><span>${esc(sec.zh)}</span><span class="n">${n}</span>
+    </a>${subs}</li>`;
+}).join('');
 
+/* ── rows ───────────────────────────────────────────────── */
 function rowHTML(d){
   const inner = `
     <span class="t">${esc(d.t)}${d.url ? '' : '<span class="pill">待補連結</span>'}</span>
@@ -344,23 +380,35 @@ function rowHTML(d){
 
 function render(term){
   const t = term.trim().toLowerCase();
+  const match = (d, sec, grp) =>
+    (d.t + d.d + d.fmt + sec.zh + (sec.en || '') + (grp ? grp.zh : '')).toLowerCase().includes(t);
+
   let shown = 0;
-  const html = AISLES.map(a => {
-    const docs = t
-      ? a.docs.filter(d => (d.t + d.d + d.fmt + a.zh + a.en).toLowerCase().includes(t))
-      : a.docs;
-    if (!docs.length) return '';
-    shown += docs.length;
-    return `<section class="aisle" id="aisle-${a.code}">
-      <h2><span class="code">${a.code}</span>${a.zh}<span class="en">${a.en}</span></h2>
-      ${t ? '' : `<p class="blurb">${a.blurb}</p>`}
-      <div class="rows">${docs.map(rowHTML).join('')}</div>
+  const html = SECTIONS.map(sec => {
+    const blocks = blocksOf(sec)
+      .map(b => ({ sec:b.sec, grp:b.grp, docs: t ? b.docs.filter(d => match(d, sec, b.grp)) : b.docs }))
+      .filter(b => b.docs.length);
+    if (!blocks.length) return '';
+    shown += blocks.reduce((a,b) => a + b.docs.length, 0);
+
+    const body = blocks.map(b => b.grp
+      ? `<div class="grp" id="${grpId(sec,b.grp)}">
+           <h3><span class="code">${b.grp.code}</span>${esc(b.grp.zh)}</h3>
+           <div class="rows">${b.docs.map(rowHTML).join('')}</div>
+         </div>`
+      : `<div class="rows">${b.docs.map(rowHTML).join('')}</div>`
+    ).join('');
+
+    return `<section class="sec" id="${secId(sec)}">
+      <h2><span class="code">${sec.code}</span>${esc(sec.zh)}${sec.en ? `<span class="en">${esc(sec.en)}</span>` : ''}</h2>
+      ${t ? '' : `<p class="blurb">${esc(sec.blurb)}</p>`}
+      ${body}
     </section>`;
   }).join('');
 
-  listEl.innerHTML = html || `<p class="empty">找不到符合「${esc(term)}」的文件。試試「SOP」、「棧板」、「測試」或「進貨」。</p>`;
-  hintEl.textContent = t ? `符合 ${shown} 筆` : `共 ${allDocs.length} 筆，分 ${AISLES.length
-    } 類`;
+  listEl.innerHTML = html ||
+    `<p class="empty">找不到符合「${esc(term)}」的文件。試試「SOP」、「棧板」、「UAT」或「進貨」。</p>`;
+  hintEl.textContent = t ? `符合 ${shown} 筆` : `共 ${allDocs.length} 筆，分 ${SECTIONS.length} 類`;
 }
 
 qEl.addEventListener('input', e => render(e.target.value));
@@ -371,12 +419,11 @@ const links = [...railEl.querySelectorAll('a')];
 const spy = new IntersectionObserver(entries => {
   entries.forEach(en => {
     if (!en.isIntersecting) return;
-    const code = en.target.id.replace('aisle-','');
-    links.forEach(l => l.classList.toggle('on', l.dataset.code === code));
+    links.forEach(l => l.classList.toggle('on', l.dataset.id === en.target.id));
   });
 }, { rootMargin:'-10% 0px -75% 0px' });
 
-function observe(){ document.querySelectorAll('.aisle').forEach(s => spy.observe(s)); }
+function observe(){ document.querySelectorAll('.sec, .grp').forEach(el => spy.observe(el)); }
 observe();
 new MutationObserver(observe).observe(listEl, { childList:true });
 </script>
