@@ -247,15 +247,14 @@ footer{
    ═══════════════════════════════════════════════════════════════════════ */
 const SECTIONS = [
 
+  /* 來源資料夾：OneDrive › FamilyMart › [全家288+] 跨部門資共享 › Meeting Minutes
+     新增會議紀錄時，把檔案放進該資料夾，再照下面格式加一行（最新的放最上面） */
   { code:'1', zh:'會議紀錄', en:'Meeting Minutes',
-    blurb:'決議留存。以會議紀錄與需求文件作為口頭共識的書面依據。',
+    blurb:'決議留存，最新的排在最前面。以書面紀錄作為口頭共識的依據。',
     docs:[
-      { t:'全家288+ 需求文件 v1', d:'專案需求彙整，系統與作業需求的書面基準。', fmt:'docx', up:'2026-07-30', url:'' },
-      { t:'07-28 全家專案跨部門會議 — 摘要', d:'跨部門會議決議、待辦與負責人。', fmt:'pdf', up:'2026-07-28', url:'' },
-      { t:'07-28 全家廠商大會 Session 1 — 摘要', d:'廠商大會第一場：進倉規範宣達與問答摘要。', fmt:'pdf', up:'2026-07-29', url:'' },
-      { t:'07-29 全家廠商大會 Session 2 — 摘要', d:'廠商大會第二場：作業細節與過渡期安排摘要。', fmt:'pdf', up:'2026-07-29', url:'' },
-      { t:'全家廠商大會 — 廠商問題彙整', d:'廠商現場提問彙整、統一回覆與待確認狀態（含入庫棧板規格議題）。', fmt:'xlsx', up:'2026-08-04', url:'https://alpglobal-my.sharepoint.com/personal/tina_chen_alp_global/Documents/FamilyMart/%5B全家288+%5D%20跨部門資共享/全家廠商大會_廠商問題彙整.xlsx' },
-      { t:'0706 全家 IT 會議紀錄', d:'IT 系統串接會議：介接範圍、責任分工與時程。', fmt:'md', up:'2026-07-07', url:'' }
+      { t:'08-04 全家專案 O2 UAT Kickoff 會議', d:'UAT 啟動會議：測試範圍、每日參與人員與待確認議題。地點 AT 2F Earth。', fmt:'pdf', up:'2026-08-04', url:'https://alpglobal-my.sharepoint.com/personal/tina_chen_alp_global/Documents/FamilyMart/%5B全家288+%5D%20跨部門資共享/Meeting%20Minutes/08-04%20全家專案O2%20UAT%20Kickoff會議.pdf' },
+      { t:'07-28 全家專案跨部門會議', d:'跨部門會議決議、待辦與負責人。10:00–11:30，地點 AT 2F Earth。', fmt:'pdf', up:'2026-08-03', url:'https://alpglobal-my.sharepoint.com/personal/tina_chen_alp_global/Documents/FamilyMart/%5B全家288+%5D%20跨部門資共享/Meeting%20Minutes/07-28%20全家專案跨部門會議.pdf' },
+      { t:'07-14 全家專案內部週會', d:'IT／SCO／ASC／FA／TEL 各單位週會進度與待辦。', fmt:'docx', up:'2026-07-14', url:'https://alpglobal-my.sharepoint.com/personal/tina_chen_alp_global/Documents/FamilyMart/%5B全家288+%5D%20跨部門資共享/Meeting%20Minutes/0714全家專案內部週會.docx' }
     ]},
 
   /* open:true = 預設展開這一類；把 open:true 刪掉就變成預設收合 */
@@ -299,6 +298,7 @@ const SECTIONS = [
   { code:'3', zh:'其他參考資料', en:'Reference',
     blurb:'進倉規範、對外回覆表與其他輔助文件。',
     docs:[
+      { t:'全家廠商大會 — 廠商問題彙整', d:'廠商現場提問彙整、統一回覆與待確認狀態（含入庫棧板規格議題）。', fmt:'xlsx', up:'2026-08-04', url:'https://alpglobal-my.sharepoint.com/personal/tina_chen_alp_global/Documents/FamilyMart/%5B全家288+%5D%20跨部門資共享/全家廠商大會_廠商問題彙整.xlsx' },
       { t:'ASC 進貨規範（供應商大會版 v3）', d:'給供應商的最新進倉規範：棧板、堆疊高度、標籤、外箱與預約規則。以此版為準。', fmt:'pptx', up:'2026-07-06', url:'https://alpglobal-my.sharepoint.com/personal/tina_chen_alp_global/Documents/FamilyMart/288+/SCO專案管理/全家288+/ASC%20進貨規範%20for%20供應商大會_v3_260706.pptx' },
       { t:'OMEGA2 事前確認事項 — 回覆表', d:'日方事前確認題目與 ALP 逐題回覆（含 BCP、停電與地震應變）。', fmt:'xlsx', up:'2026-07-23', url:'https://alpglobal-my.sharepoint.com/personal/tina_chen_alp_global/Documents/FamilyMart/%5B全家288+%5D%20跨部門資共享/OMEGA2事前確認事項_回覆表.xlsx' },
       { t:'[SCO x ALP] 全家專案流程與議題', d:'各流程 PIC、SOP 進度與 C01 異形料架等待辦議題。', fmt:'pptx', up:'2026-07-10', url:'https://alpglobal-my.sharepoint.com/personal/tina_chen_alp_global/Documents/FamilyMart/288+/%5BSCO%20x%20ALP%5D%20全家專案流程與議題.pptx' }
