@@ -5,14 +5,31 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex, nofollow">
 <title>全家 288+ 專案文件入口｜FamilyMart 288+ Document Portal</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&display=swap">
 <style>
 /* ── tokens ─────────────────────────────────────────────── */
-/* 固定淺色模式：不隨系統深色設定變化 */
+/* 固定淺色模式：不隨系統深色設定變化
+   配色來源：Navy #0C2C47｜Green #2D5652｜Yellow #E2A54D
+             Aqua #97D3CD｜Warm #EFEAE6｜Mint #E4F2EA
+   角色分工：黃＝互動狀態（展開鈕、hover、focus）
+             青＝結構標籤（分類編號）
+             薄荷＝滑過列的底色
+             海軍藍＝文字與強分隔線｜綠＝次要文字 */
 :root{
   color-scheme:light;
-  --paper:#FBFAF6; --raise:#F4F2EA; --ink:#17150E;
-  --grey-1:#6B6759; --grey-2:#9C9789; --rule:#E2DDD0;
-  --signal:#E8C400; --focus:#B89A00;
+  --paper:#EFEAE6;          /* 暖底 */
+  --raise:#F6F3F0;          /* 暖底的淺色調，用於輸入框與公告 */
+  --hover:#E4F2EA;          /* Mint，滑過時的底色 */
+  --ink:#0C2C47;            /* Navy，主文字 */
+  --grey-1:#2D5652;         /* Green，次要文字 */
+  --grey-2:#5F706B;         /* 綠灰，標籤與細節 */
+  --rule:#D8D2CC;           /* 暖色分隔線 */
+  --signal:#E2A54D;         /* Yellow */
+  --aqua:#97D3CD;           /* Aqua */
+  --focus:#A9721F;          /* 深黃，focus 外框在淺底上才看得見 */
+  --display:"Playfair Display","Songti TC","Noto Serif TC","Times New Roman",Georgia,serif;
   --sans:"PingFang TC","Hiragino Sans","Noto Sans TC","Microsoft JhengHei",-apple-system,"Segoe UI",Roboto,sans-serif;
   --mono:ui-monospace,"SF Mono",Menlo,"Cascadia Mono","Roboto Mono",monospace;
 }
@@ -34,8 +51,8 @@ a{color:inherit}
   padding:56px 0 24px; border-bottom:2px solid var(--ink);
 }
 .masthead h1{
-  margin:0; font-size:clamp(1.75rem,3.6vw,2.6rem); font-weight:700;
-  letter-spacing:-.02em; line-height:1.15; text-wrap:balance;
+  margin:0; font-family:var(--display); font-size:clamp(1.9rem,3.8vw,2.9rem);
+  font-weight:700; letter-spacing:0; line-height:1.15; text-wrap:balance;
 }
 .masthead .en{
   display:block; margin-top:6px; font-family:var(--mono); font-size:.75rem;
@@ -52,7 +69,7 @@ a{color:inherit}
 
 .notice{
   display:flex; gap:14px; align-items:flex-start; margin-top:28px; padding:16px 18px;
-  background:var(--raise); border-left:4px solid var(--signal);
+  background:var(--raise); border-left:4px solid var(--grey-1);
   font-size:.875rem; color:var(--grey-1);
 }
 .notice strong{color:var(--ink); font-weight:600}
@@ -95,10 +112,10 @@ a{color:inherit}
 .sec > summary{
   display:flex; align-items:center; gap:12px; flex-wrap:wrap;
   padding:16px 12px 16px 0; cursor:pointer; list-style:none;
-  font-size:1.0625rem; font-weight:700; letter-spacing:-.01em;
+  font-family:var(--display); font-size:1.25rem; font-weight:600; letter-spacing:0;
 }
 .sec > summary::-webkit-details-marker{display:none}
-.sec > summary:hover{background:var(--raise)}
+.sec > summary:hover{background:var(--hover)}
 .sec > summary:hover .stitle{box-shadow:inset 0 -2px 0 var(--signal)}
 
 /* 展開／收合鈕：關閉時是 ＋，展開時是 －  */
@@ -122,7 +139,7 @@ a{color:inherit}
 
 .sec > summary .code{
   font-family:var(--mono); font-size:.7rem; font-weight:400; letter-spacing:.1em;
-  color:var(--ink); background:var(--signal); padding:3px 8px;
+  color:var(--ink); background:var(--aqua); padding:3px 8px;
 }
 .sec > summary .en{
   font-family:var(--mono); font-size:.68rem; font-weight:400;
@@ -150,7 +167,7 @@ a{color:inherit}
   display:grid; grid-template-columns:1fr 56px 126px; gap:8px 20px; align-items:baseline;
   padding:14px 0; border-bottom:1px solid var(--rule); text-decoration:none;
 }
-a.row:hover{background:var(--raise)}
+a.row:hover{background:var(--hover)}
 a.row:hover .t{box-shadow:inset 0 -2px 0 var(--signal)}
 .row .t{font-size:.9375rem; font-weight:600; line-height:1.45; word-break:break-word}
 .row .d{grid-column:1; font-size:.8125rem; color:var(--grey-1); margin-top:2px; max-width:70ch}
