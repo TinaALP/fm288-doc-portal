@@ -305,7 +305,8 @@ const SECTIONS = [
       ]},
 
       { code:'g', zh:'待與全家追蹤議題', docs:[
-        { t:'20260710 永聯測試商品需求', d:'欲測試用的商品採購清單，包含 TEL 設備壓力測試，UAT 以及商品主檔建置等目的。', fmt:'xlsx', up:'2026-08-05', cr:'', url:'https://alpglobal-my.sharepoint.com/:x:/r/personal/charlies_kuo_alp_global/_layouts/15/Doc.aspx?sourcedoc=%7BE394F25C-ABB0-40AE-8740-3C737C68CC71%7D&file=20260710_%25u6c38%25u806f%25u6e2c%25u8a66%25u5546%25u54c1%25u9700%25u6c42.xlsx&action=default&mobileredirect=true' }
+        { t:'20260710 永聯測試商品需求', d:'欲測試用的商品採購清單，包含 TEL 設備壓力測試，UAT 以及商品主檔建置等目的。', fmt:'xlsx', up:'2026-08-05', cr:'', url:'https://alpglobal-my.sharepoint.com/:x:/r/personal/charlies_kuo_alp_global/_layouts/15/Doc.aspx?sourcedoc=%7BE394F25C-ABB0-40AE-8740-3C737C68CC71%7D&file=20260710_%25u6c38%25u806f%25u6e2c%25u8a66%25u5546%25u54c1%25u9700%25u6c42.xlsx&action=default&mobileredirect=true' },
+        { t:'2026/6-2026/7 單日最大量清單', d:'', fmt:'xlsx', up:'—', cr:'', url:'https://alpglobal-my.sharepoint.com/:x:/g/personal/chia_lee_alp_global/IQCBOGDFxtW2TJDbRBL_ap9QAXBqOKgw7YWZsUilAqhNRQk?e=e1DuQ9' }
       ]}
     ]},
 
@@ -383,7 +384,7 @@ function rowHTML(d){
     <span class="t">${esc(d.t)}${d.url ? '' : '<span class="pill">待補連結</span>'}</span>
     <span class="fmt">${esc(d.fmt)}</span>
     <span class="dates"><span><span class="lb">更新</span>${esc(d.up)}</span>${cr}</span>
-    <span class="d">${esc(d.d)}</span>`;
+    ${d.d ? `<span class="d">${esc(d.d)}</span>` : ''}`;
   return d.url
     ? `<a class="row" href="${esc(d.url)}" target="_blank" rel="noopener">${inner}</a>`
     : `<div class="row pending">${inner}</div>`;
