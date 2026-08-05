@@ -12,14 +12,15 @@
 /* ── tokens ─────────────────────────────────────────────── */
 /* 固定淺色模式：不隨系統深色設定變化
    配色來源：Navy #0C2C47｜Green #2D5652｜Yellow #E2A54D
-             Warm #EFEAE6｜Mint #E4F2EA
+             Mint #E4F2EA｜Warm #F6F3F0
    角色分工：海軍藍＝文字、強分隔線、分類編號方塊
-             綠＝次要文字｜黃＝互動狀態（展開鈕、hover、focus）
-             薄荷＝滑過列的底色｜暖白＝頁面底色 */
+             綠＝次要文字｜黃＝互動狀態（展開鈕、hover 底線、focus）
+             薄荷＝所有 hover 的底色（列、分類標題、側欄）
+             暖白＝面板（輸入框、公告）｜白＝頁面底色 */
 :root{
   color-scheme:light;
-  --paper:#EFEAE6;          /* 暖底 */
-  --raise:#F6F3F0;          /* 暖底的淺色調，用於輸入框與公告 */
+  --paper:#FFFFFF;          /* 頁面底色 */
+  --raise:#F6F3F0;          /* 暖白面板，用於輸入框與公告 */
   --hover:#E4F2EA;          /* Mint，滑過時的底色 */
   --ink:#0C2C47;            /* Navy，主文字 */
   --grey-1:#2D5652;         /* Green，次要文字 */
@@ -84,12 +85,12 @@ a{color:inherit}
 .rail ol ol{padding:0 0 4px}
 .rail a{
   display:grid; grid-template-columns:20px 1fr auto; gap:8px; align-items:baseline;
-  padding:7px 0 7px 10px; margin-left:-14px; border-left:4px solid transparent;
+  padding:7px 8px 7px 10px; margin-left:-14px; border-left:4px solid transparent;
   text-decoration:none; font-size:.875rem; color:var(--grey-1);
-  transition:color .15s, border-color .15s;
+  transition:color .15s, border-color .15s, background .12s;
 }
-.rail a.sub{font-size:.8125rem; padding:4px 0 4px 26px}
-.rail a:hover{color:var(--ink)}
+.rail a.sub{font-size:.8125rem; padding:4px 8px 4px 26px}
+.rail a:hover{color:var(--ink); background:var(--hover)}
 .rail a.on{color:var(--ink); border-left-color:var(--signal); font-weight:600}
 .rail .code,.rail .n{font-family:var(--mono); font-size:.72rem; color:var(--grey-2)}
 .rail a.on .code{color:var(--ink)}
@@ -291,7 +292,7 @@ const SECTIONS = [
     groups:[
 
       { code:'a', zh:'時程總表', docs:[
-        { t:'全家288+ 專案跨部門整合時程', d:'里程碑追蹤 roll-up 與各部門、外部單位（全家／日翊／ASC）的時程對照。跨部門對焦以此為基準。', fmt:'xlsx', up:'2026-08-04', cr:'', url:'https://alpglobal-my.sharepoint.com/personal/tina_chen_alp_global/Documents/FamilyMart/%5B全家288+%5D%20跨部門資共享/全家288+專案_跨部門整合時程.xlsx?web=1' },
+        { t:'全家288+ 專案跨部門整合時程', d:'全家專案重大里程碑追蹤', fmt:'xlsx', up:'2026-08-04', cr:'', url:'https://alpglobal-my.sharepoint.com/personal/tina_chen_alp_global/Documents/FamilyMart/%5B全家288+%5D%20跨部門資共享/全家288+專案_跨部門整合時程.xlsx?web=1' },
         { t:'全家288+ 時程總覽（時間軸）', d:'上線前衝刺時間軸，含 SIT、SOP 定版、教學、UAT 各關卡日期。', fmt:'md', up:'2026-07-14', cr:'', url:'' },
         { t:'全家專案 WBS 甘特圖', d:'WBS 甘特視覺化，與里程碑追蹤表同步維護。', fmt:'md', up:'2026-07-13', cr:'', url:'' }
       ]},
