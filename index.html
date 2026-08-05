@@ -93,17 +93,33 @@ a{color:inherit}
 
 .sec{border-bottom:1px solid var(--rule); scroll-margin-top:16px}
 .sec > summary{
-  display:flex; align-items:baseline; gap:12px; flex-wrap:wrap;
-  padding:16px 0; cursor:pointer; list-style:none;
+  display:flex; align-items:center; gap:12px; flex-wrap:wrap;
+  padding:16px 12px 16px 0; cursor:pointer; list-style:none;
   font-size:1.0625rem; font-weight:700; letter-spacing:-.01em;
 }
 .sec > summary::-webkit-details-marker{display:none}
+.sec > summary:hover{background:var(--raise)}
 .sec > summary:hover .stitle{box-shadow:inset 0 -2px 0 var(--signal)}
-.sec > summary .chev{
-  font-family:var(--mono); font-size:.7rem; font-weight:400; color:var(--grey-2);
-  display:inline-block; transition:transform .15s;
+
+/* 展開／收合鈕：關閉時是 ＋，展開時是 －  */
+.sec > summary .tog{
+  flex:0 0 auto; position:relative; width:22px; height:22px;
+  border:1.5px solid var(--ink); background:var(--paper);
+  transition:background .12s;
 }
-.sec[open] > summary .chev{transform:rotate(90deg)}
+.sec > summary .tog::before,
+.sec > summary .tog::after{
+  content:''; position:absolute; top:50%; left:50%; background:var(--ink);
+}
+.sec > summary .tog::before{width:11px; height:2px; transform:translate(-50%,-50%)}
+.sec > summary .tog::after{
+  width:2px; height:11px; transform:translate(-50%,-50%);
+  transition:opacity .12s, transform .12s;
+}
+.sec[open] > summary .tog::after{opacity:0; transform:translate(-50%,-50%) scaleY(.2)}
+.sec > summary:hover .tog{background:var(--signal)}
+.sec[open] > summary .tog{background:var(--signal)}
+
 .sec > summary .code{
   font-family:var(--mono); font-size:.7rem; font-weight:400; letter-spacing:.1em;
   color:var(--ink); background:var(--signal); padding:3px 8px;
@@ -119,18 +135,6 @@ a{color:inherit}
 .secbody{padding-bottom:34px}
 .sec .blurb{margin:0 0 14px; font-size:.85rem; color:var(--grey-1); max-width:62ch}
 
-.tools{display:flex; gap:10px; margin-top:14px}
-.tools button{
-  display:inline-flex; align-items:center; gap:7px;
-  font:inherit; font-size:.875rem; font-weight:600; color:var(--ink);
-  background:var(--raise); border:1.5px solid var(--ink);
-  padding:9px 16px; cursor:pointer;
-  transition:background .12s, color .12s;
-}
-.tools button .ic{font-size:.75rem; line-height:1}
-.tools button:hover{background:var(--signal); border-color:var(--ink)}
-.tools button:active{transform:translateY(1px)}
-
 .grp{margin-top:26px; scroll-margin-top:24px}
 .grp > h3{
   display:flex; align-items:baseline; gap:10px; margin:0 0 6px;
@@ -143,7 +147,7 @@ a{color:inherit}
 
 .rows{border-top:1px solid var(--rule)}
 .row{
-  display:grid; grid-template-columns:1fr 78px 126px; gap:8px 20px; align-items:baseline;
+  display:grid; grid-template-columns:1fr 56px 126px; gap:8px 20px; align-items:baseline;
   padding:14px 0; border-bottom:1px solid var(--rule); text-decoration:none;
 }
 a.row:hover{background:var(--raise)}
@@ -154,7 +158,10 @@ a.row:hover .t{box-shadow:inset 0 -2px 0 var(--signal)}
   font-family:var(--mono); font-size:.7rem; letter-spacing:.06em;
   color:var(--grey-1); font-variant-numeric:tabular-nums; white-space:nowrap;
 }
-.row .fmt{text-transform:uppercase}
+.row .fmt{
+  justify-self:start; text-transform:uppercase; font-size:.62rem;
+  border:1px solid var(--rule); padding:2px 5px; color:var(--grey-1);
+}
 .row .dates{display:flex; flex-direction:column; align-items:flex-end; gap:2px; line-height:1.5}
 .row .dates .lb{color:var(--grey-2); margin-right:5px}
 .row .dates .cr{color:var(--grey-2)}
@@ -198,8 +205,7 @@ footer{
     </div>
     <div class="stats">
       <div>文件<b id="stat-total">–</b></div>
-      <div>分類<b id="stat-cat">–</b></div>
-      <div>最近更新<b id="stat-date">–</b></div>
+      <div>最新更新<b id="stat-date">–</b></div>
     </div>
   </header>
 
@@ -221,14 +227,10 @@ footer{
       <div class="search">
         <input id="q" type="search" placeholder="搜尋文件名稱、用途或分類…" autocomplete="off" aria-label="搜尋文件">
         <div class="hint" id="hint"></div>
-        <div class="tools">
-          <button type="button" id="expand-all"><span class="ic" aria-hidden="true">▼</span>展開所有分類</button>
-          <button type="button" id="collapse-all"><span class="ic" aria-hidden="true">▲</span>收合所有分類</button>
-        </div>
       </div>
       <div id="list"></div>
       <footer>
-        <span id="foot-pending"></span>
+        <span id="foot-sync"></span>
         <span>維護：ALP 專案管理 · tina.chen@alp.global</span>
       </footer>
     </main>
@@ -252,6 +254,14 @@ footer{
    • 新增分類：複製一整個 { code:…, zh:…, en:…, blurb:…, docs:[ … ] } 區塊
    • 引號內若要用單引號，寫成 \'
    ═══════════════════════════════════════════════════════════════════════ */
+/* SHOW_PENDING：是否顯示「還沒有連結」的文件
+   false = 對外模式，沒連結的整列隱藏（讀者看不到未完成的項目）
+   true  = 內部模式，灰色顯示「待補連結」，當你自己的待辦清單用 */
+const SHOW_PENDING = false;
+
+/* 這份清單最後跟 OneDrive 核對的日期，顯示在頁尾。每次同步後改這裡 */
+const SYNCED = '2026-08-05';
+
 const SECTIONS = [
 
   /* 來源資料夾：OneDrive › FamilyMart › [全家288+] 跨部門資共享 › Meeting Minutes
@@ -330,32 +340,37 @@ const listEl = document.getElementById('list');
 const qEl    = document.getElementById('q');
 const hintEl = document.getElementById('hint');
 
+/* 對外模式下把沒有連結的文件濾掉；側欄計數、統計、列表全部一致 */
+function vis(docs){ return SHOW_PENDING ? docs : docs.filter(d => d.url); }
 function blocksOf(sec){
-  return sec.groups
-    ? sec.groups.map(g => ({ sec, grp:g, docs:g.docs }))
-    : [{ sec, grp:null, docs:sec.docs }];
+  const blocks = sec.groups
+    ? sec.groups.map(g => ({ sec, grp:g, docs:vis(g.docs) }))
+    : [{ sec, grp:null, docs:vis(sec.docs) }];
+  return blocks.filter(b => b.docs.length);
 }
-const allDocs = SECTIONS.flatMap(blocksOf).flatMap(b => b.docs);
+const liveSections = SECTIONS.filter(s => blocksOf(s).length);
+const allDocs = liveSections.flatMap(blocksOf).flatMap(b => b.docs);
 const pending = allDocs.filter(d => !d.url).length;
 const dates   = allDocs.map(d => d.up).filter(u => /^\d{4}-\d{2}-\d{2}$/.test(u)).sort();
 const latest  = dates.length ? dates[dates.length - 1] : null;
 
 document.getElementById('stat-total').textContent = allDocs.length;
-document.getElementById('stat-cat').textContent   = SECTIONS.length;
 document.getElementById('stat-date').textContent  = latest ? latest.slice(5).replace('-','/') : '—';
-document.getElementById('foot-pending').textContent =
-  pending ? `${pending} / ${allDocs.length} 筆尚待補上 OneDrive 連結` : `全部 ${allDocs.length} 筆連結已就緒`;
+document.getElementById('foot-sync').textContent =
+  `本頁清單與 OneDrive 核對於 ${SYNCED}` + (pending ? `・內部模式：${pending} 筆待補連結` : '');
 
 function esc(s){ return String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])); }
 function secId(sec){ return `sec-${sec.code}`; }
 function grpId(sec,grp){ return `sec-${sec.code}${grp.code}`; }
 
 /* ── rail ───────────────────────────────────────────────── */
-railEl.innerHTML = SECTIONS.map(sec => {
-  const n = sec.groups ? sec.groups.reduce((a,g) => a + g.docs.length, 0) : sec.docs.length;
-  const subs = sec.groups ? `<ol>${sec.groups.map(g => `
-    <li><a class="sub" href="#${grpId(sec,g)}" data-id="${grpId(sec,g)}">
-      <span class="code">${g.code}</span><span>${esc(g.zh)}</span><span class="n">${g.docs.length}</span>
+railEl.innerHTML = liveSections.map(sec => {
+  const blocks = blocksOf(sec);
+  const n = blocks.reduce((a,b) => a + b.docs.length, 0);
+  const grouped = blocks.filter(b => b.grp);
+  const subs = grouped.length ? `<ol>${grouped.map(b => `
+    <li><a class="sub" href="#${grpId(sec,b.grp)}" data-id="${grpId(sec,b.grp)}">
+      <span class="code">${b.grp.code}</span><span>${esc(b.grp.zh)}</span><span class="n">${b.docs.length}</span>
     </a></li>`).join('')}</ol>` : '';
   return `<li>
     <a href="#${secId(sec)}" data-id="${secId(sec)}">
@@ -386,7 +401,7 @@ function render(term){
     (d.t + d.d + d.fmt + sec.zh + (sec.en || '') + (grp ? grp.zh : '')).toLowerCase().includes(t);
 
   let shown = 0;
-  const html = SECTIONS.map(sec => {
+  const html = liveSections.map(sec => {
     const blocks = blocksOf(sec)
       .map(b => ({ sec:b.sec, grp:b.grp, docs: t ? b.docs.filter(d => match(d, sec, b.grp)) : b.docs }))
       .filter(b => b.docs.length);
@@ -407,7 +422,7 @@ function render(term){
 
     return `<details class="sec" id="${secId(sec)}"${open ? ' open' : ''}>
       <summary>
-        <span class="chev" aria-hidden="true">▸</span>
+        <span class="tog" aria-hidden="true"></span>
         <span class="code">${sec.code}</span>
         <span class="stitle">${esc(sec.zh)}</span>
         ${sec.en ? `<span class="en">${esc(sec.en)}</span>` : ''}
@@ -422,7 +437,7 @@ function render(term){
 
   listEl.innerHTML = html ||
     `<p class="empty">找不到符合「${esc(term)}」的文件。試試「SOP」、「棧板」、「UAT」或「進貨」。</p>`;
-  hintEl.textContent = t ? `符合 ${shown} 筆` : `共 ${allDocs.length} 筆，分 ${SECTIONS.length} 類`;
+  hintEl.textContent = t ? `符合 ${shown} 筆` : `共 ${allDocs.length} 筆，分 ${liveSections.length} 類`;
 
   /* 記住使用者手動展開／收合的狀態（搜尋中不記錄） */
   listEl.querySelectorAll('details.sec').forEach(d => {
@@ -435,12 +450,6 @@ function render(term){
 }
 
 qEl.addEventListener('input', e => render(e.target.value));
-document.getElementById('expand-all').addEventListener('click', () => {
-  SECTIONS.forEach(s => openCodes.add(s.code)); render(qEl.value);
-});
-document.getElementById('collapse-all').addEventListener('click', () => {
-  openCodes.clear(); render(qEl.value);
-});
 render('');
 
 /* ── 側欄點擊：先展開該分類再捲動 ────────────────────────── */
