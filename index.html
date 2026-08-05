@@ -116,19 +116,20 @@ a{color:inherit}
 .sec > summary:hover{background:var(--hover)}
 .sec > summary:hover .stitle{box-shadow:inset 0 -2px 0 var(--signal)}
 
-/* 展開／收合鈕：關閉時是 ＋，展開時是 －  */
+/* 展開／收合鈕：關閉時是 ＋，展開時是 －
+   刻意做成小圓形，跟右邊方形的分類編號區隔開 */
 .sec > summary .tog{
-  flex:0 0 auto; position:relative; width:22px; height:22px;
-  border:1.5px solid var(--ink); background:var(--paper);
+  flex:0 0 auto; position:relative; width:17px; height:17px;
+  border:1.5px solid var(--ink); border-radius:50%; background:var(--paper);
   transition:background .12s;
 }
 .sec > summary .tog::before,
 .sec > summary .tog::after{
   content:''; position:absolute; top:50%; left:50%; background:var(--ink);
 }
-.sec > summary .tog::before{width:11px; height:2px; transform:translate(-50%,-50%)}
+.sec > summary .tog::before{width:8px; height:1.5px; transform:translate(-50%,-50%)}
 .sec > summary .tog::after{
-  width:2px; height:11px; transform:translate(-50%,-50%);
+  width:1.5px; height:8px; transform:translate(-50%,-50%);
   transition:opacity .12s, transform .12s;
 }
 .sec[open] > summary .tog::after{opacity:0; transform:translate(-50%,-50%) scaleY(.2)}
