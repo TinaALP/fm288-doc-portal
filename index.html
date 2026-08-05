@@ -226,7 +226,6 @@ footer{
 
   <p class="notice">
     <span>
-      <strong>此入口供全家、日翊、ASC 與 ALP 專案成員使用。</strong>
       文件本體存放於 ALP OneDrive，點擊標題於新視窗開啟；若顯示沒有權限，請向 ALP 專案窗口
       <a href="mailto:tina.chen@alp.global">tina.chen@alp.global</a> 申請。
     </span>
@@ -282,11 +281,11 @@ const SECTIONS = [
   /* 來源資料夾：OneDrive › FamilyMart › [全家288+] 跨部門資共享 › Meeting Minutes
      新增會議紀錄時，把檔案放進該資料夾，再照下面格式加一行（最新的放最上面） */
   { code:'1', zh:'會議紀錄', en:'Meeting Minutes',
-    blurb:'決議留存，最新的排在最前面。以書面紀錄作為口頭共識的依據。',
+    blurb:'',
     docs:[
       { t:'08-04 全家專案 O2 UAT Kickoff 會議', d:'UAT 啟動會議：測試範圍、每日參與人員與待確認議題。地點 AT 2F Earth。', fmt:'pdf', up:'2026-08-04', cr:'', url:'https://alpglobal-my.sharepoint.com/personal/tina_chen_alp_global/Documents/FamilyMart/%5B全家288+%5D%20跨部門資共享/Meeting%20Minutes/08-04%20全家專案O2%20UAT%20Kickoff會議.pdf?web=1' },
-      { t:'07-28 全家專案跨部門會議', d:'跨部門會議決議、待辦與負責人。10:00–11:30，地點 AT 2F Earth。', fmt:'pdf', up:'2026-08-03', cr:'', url:'https://alpglobal-my.sharepoint.com/personal/tina_chen_alp_global/Documents/FamilyMart/%5B全家288+%5D%20跨部門資共享/Meeting%20Minutes/07-28%20全家專案跨部門會議.pdf?web=1' },
-      { t:'07-14 全家專案內部週會', d:'IT／SCO／ASC／FA／TEL 各單位週會進度與待辦。', fmt:'docx', up:'2026-07-14', cr:'', url:'https://alpglobal-my.sharepoint.com/personal/tina_chen_alp_global/Documents/FamilyMart/%5B全家288+%5D%20跨部門資共享/Meeting%20Minutes/0714全家專案內部週會.docx?web=1' }
+      { t:'07-28 全家專案跨部門會議', d:'全家專案內部跨部門周會', fmt:'pdf', up:'2026-08-03', cr:'', url:'https://alpglobal-my.sharepoint.com/personal/tina_chen_alp_global/Documents/FamilyMart/%5B全家288+%5D%20跨部門資共享/Meeting%20Minutes/07-28%20全家專案跨部門會議.pdf?web=1' },
+      { t:'07-14 全家專案內部週會', d:'全家專案內部跨部門周會', fmt:'docx', up:'2026-07-14', cr:'', url:'https://alpglobal-my.sharepoint.com/personal/tina_chen_alp_global/Documents/FamilyMart/%5B全家288+%5D%20跨部門資共享/Meeting%20Minutes/0714全家專案內部週會.docx?web=1' }
     ]},
 
   /* open:true = 預設展開這一類；把 open:true 刪掉就變成預設收合 */
@@ -444,7 +443,7 @@ function render(term){
         <span class="cnt">${n} 筆${pend ? `・${pend} 待補` : ''}</span>
       </summary>
       <div class="secbody">
-        ${t ? '' : `<p class="blurb">${esc(sec.blurb)}</p>`}
+        ${!t && sec.blurb ? `<p class="blurb">${esc(sec.blurb)}</p>` : ''}
         ${body}
       </div>
     </details>`;
