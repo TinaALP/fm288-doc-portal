@@ -143,21 +143,23 @@ a{color:inherit}
 
 .rows{border-top:1px solid var(--rule)}
 .row{
-  display:grid; grid-template-columns:1fr 78px 96px; gap:8px 20px; align-items:baseline;
+  display:grid; grid-template-columns:1fr 78px 126px; gap:8px 20px; align-items:baseline;
   padding:14px 0; border-bottom:1px solid var(--rule); text-decoration:none;
 }
 a.row:hover{background:var(--raise)}
 a.row:hover .t{box-shadow:inset 0 -2px 0 var(--signal)}
 .row .t{font-size:.9375rem; font-weight:600; line-height:1.45; word-break:break-word}
 .row .d{grid-column:1; font-size:.8125rem; color:var(--grey-1); margin-top:2px; max-width:70ch}
-.row .fmt,.row .up{
+.row .fmt,.row .dates{
   font-family:var(--mono); font-size:.7rem; letter-spacing:.06em;
   color:var(--grey-1); font-variant-numeric:tabular-nums; white-space:nowrap;
 }
 .row .fmt{text-transform:uppercase}
-.row .up{text-align:right}
+.row .dates{display:flex; flex-direction:column; align-items:flex-end; gap:2px; line-height:1.5}
+.row .dates .lb{color:var(--grey-2); margin-right:5px}
+.row .dates .cr{color:var(--grey-2)}
 .row.pending{opacity:.55}
-.row.pending .up{color:var(--grey-2)}
+.row.pending .dates{color:var(--grey-2)}
 .pill{
   display:inline-block; margin-left:8px; padding:2px 6px;
   font-family:var(--mono); font-size:.62rem; letter-spacing:.08em;
@@ -180,7 +182,7 @@ footer{
   .rail a{border-left:none; border-bottom:3px solid transparent; margin-left:0; padding:6px 0}
   .rail a.on{border-bottom-color:var(--signal)}
   .row{grid-template-columns:1fr auto}
-  .row .up{grid-column:2}
+  .row .dates{grid-column:2}
   .row .fmt{grid-column:1; grid-row:3}
 }
 @media (prefers-reduced-motion:reduce){*{transition:none !important}}
@@ -237,11 +239,13 @@ footer{
 /* ═══════════════════════════════════════════════════════════════════════
    ▼▼▼ 要新增／修改／刪除文件，只改下面這一段 SECTIONS ▼▼▼
 
-   每一筆文件就是一行，五個欄位：
-     { t:'標題', d:'一句話用途', fmt:'pdf', up:'2026-08-04', url:'貼上OneDrive連結' }
+   每一筆文件就是一行，六個欄位：
+     { t:'標題', d:'一句話用途', fmt:'pdf', up:'2026-08-04', cr:'2026-07-28', url:'貼上OneDrive連結' }
 
+   • up = 修改日期（顯示為「更新」）；cr = 建立日期（顯示為「建立」，小一號灰字）
    • 改連結：把 url:'' 的兩個引號之間貼上連結
    • url 空著 → 該列顯示灰色「待補連結」且不可點
+   • cr 空著 → 只顯示「更新」那一行，不會有空白
    • 還沒有更新日期 → up:'—'
    • 新增一筆：複製任一整行 { … },  改內容（注意行尾逗號要留著）
    • 刪除一筆：把整行 { … }, 刪掉
@@ -255,9 +259,9 @@ const SECTIONS = [
   { code:'1', zh:'會議紀錄', en:'Meeting Minutes',
     blurb:'決議留存，最新的排在最前面。以書面紀錄作為口頭共識的依據。',
     docs:[
-      { t:'08-04 全家專案 O2 UAT Kickoff 會議', d:'UAT 啟動會議：測試範圍、每日參與人員與待確認議題。地點 AT 2F Earth。', fmt:'pdf', up:'2026-08-04', url:'https://alpglobal-my.sharepoint.com/personal/tina_chen_alp_global/Documents/FamilyMart/%5B全家288+%5D%20跨部門資共享/Meeting%20Minutes/08-04%20全家專案O2%20UAT%20Kickoff會議.pdf' },
-      { t:'07-28 全家專案跨部門會議', d:'跨部門會議決議、待辦與負責人。10:00–11:30，地點 AT 2F Earth。', fmt:'pdf', up:'2026-08-03', url:'https://alpglobal-my.sharepoint.com/personal/tina_chen_alp_global/Documents/FamilyMart/%5B全家288+%5D%20跨部門資共享/Meeting%20Minutes/07-28%20全家專案跨部門會議.pdf' },
-      { t:'07-14 全家專案內部週會', d:'IT／SCO／ASC／FA／TEL 各單位週會進度與待辦。', fmt:'docx', up:'2026-07-14', url:'https://alpglobal-my.sharepoint.com/personal/tina_chen_alp_global/Documents/FamilyMart/%5B全家288+%5D%20跨部門資共享/Meeting%20Minutes/0714全家專案內部週會.docx' }
+      { t:'08-04 全家專案 O2 UAT Kickoff 會議', d:'UAT 啟動會議：測試範圍、每日參與人員與待確認議題。地點 AT 2F Earth。', fmt:'pdf', up:'2026-08-04', cr:'', url:'https://alpglobal-my.sharepoint.com/personal/tina_chen_alp_global/Documents/FamilyMart/%5B全家288+%5D%20跨部門資共享/Meeting%20Minutes/08-04%20全家專案O2%20UAT%20Kickoff會議.pdf' },
+      { t:'07-28 全家專案跨部門會議', d:'跨部門會議決議、待辦與負責人。10:00–11:30，地點 AT 2F Earth。', fmt:'pdf', up:'2026-08-03', cr:'', url:'https://alpglobal-my.sharepoint.com/personal/tina_chen_alp_global/Documents/FamilyMart/%5B全家288+%5D%20跨部門資共享/Meeting%20Minutes/07-28%20全家專案跨部門會議.pdf' },
+      { t:'07-14 全家專案內部週會', d:'IT／SCO／ASC／FA／TEL 各單位週會進度與待辦。', fmt:'docx', up:'2026-07-14', cr:'', url:'https://alpglobal-my.sharepoint.com/personal/tina_chen_alp_global/Documents/FamilyMart/%5B全家288+%5D%20跨部門資共享/Meeting%20Minutes/0714全家專案內部週會.docx' }
     ]},
 
   /* open:true = 預設展開這一類；把 open:true 刪掉就變成預設收合 */
@@ -266,56 +270,56 @@ const SECTIONS = [
     groups:[
 
       { code:'a', zh:'時程總表', docs:[
-        { t:'全家288+ 專案跨部門整合時程', d:'里程碑追蹤 roll-up 與各部門、外部單位（全家／日翊／ASC）的時程對照。跨部門對焦以此為基準。', fmt:'xlsx', up:'2026-08-04', url:'https://alpglobal-my.sharepoint.com/personal/tina_chen_alp_global/Documents/FamilyMart/%5B全家288+%5D%20跨部門資共享/全家288+專案_跨部門整合時程.xlsx' },
-        { t:'全家288+ 里程碑與 WBS 整合表', d:'M0–M8 里程碑追蹤、WBS 明細、上線就緒清單、依賴鏈。專案進度單一真實來源。', fmt:'xlsx', up:'2026-07-14', url:'https://alpglobal-my.sharepoint.com/personal/tina_chen_alp_global/Documents/FamilyMart/288+/SCO專案管理/全家288+/全家288+_里程碑與WBS_整合.xlsx' },
-        { t:'FamilyMart 288+ 日營運時間軸', d:'一日營運的時間軸：拋檔、撥貨、揀貨、出車各段時點。', fmt:'xlsx', up:'2026-07-14', url:'https://alpglobal-my.sharepoint.com/personal/tina_chen_alp_global/Documents/FamilyMart/288+/SCO專案管理/全家288+/FamilyMart%20288+%20日營運時間軸.xlsx' },
-        { t:'全家288+ 進度更新（7/30）', d:'對外進度簡報，摘要當期完成事項、風險與下一步。', fmt:'pptx', up:'2026-07-30', url:'https://alpglobal-my.sharepoint.com/personal/tina_chen_alp_global/Documents/Powerpoint/全家288+_進度更新_0730.pptx' },
-        { t:'全家288+ 時程總覽（時間軸）', d:'上線前衝刺時間軸，含 SIT、SOP 定版、教學、UAT 各關卡日期。', fmt:'md', up:'2026-07-14', url:'' },
-        { t:'全家專案 WBS 甘特圖', d:'WBS 甘特視覺化，與里程碑追蹤表同步維護。', fmt:'md', up:'2026-07-13', url:'' }
+        { t:'全家288+ 專案跨部門整合時程', d:'里程碑追蹤 roll-up 與各部門、外部單位（全家／日翊／ASC）的時程對照。跨部門對焦以此為基準。', fmt:'xlsx', up:'2026-08-04', cr:'', url:'https://alpglobal-my.sharepoint.com/personal/tina_chen_alp_global/Documents/FamilyMart/%5B全家288+%5D%20跨部門資共享/全家288+專案_跨部門整合時程.xlsx' },
+        { t:'全家288+ 里程碑與 WBS 整合表', d:'M0–M8 里程碑追蹤、WBS 明細、上線就緒清單、依賴鏈。專案進度單一真實來源。', fmt:'xlsx', up:'2026-07-14', cr:'', url:'https://alpglobal-my.sharepoint.com/personal/tina_chen_alp_global/Documents/FamilyMart/288+/SCO專案管理/全家288+/全家288+_里程碑與WBS_整合.xlsx' },
+        { t:'FamilyMart 288+ 日營運時間軸', d:'一日營運的時間軸：拋檔、撥貨、揀貨、出車各段時點。', fmt:'xlsx', up:'2026-07-14', cr:'', url:'https://alpglobal-my.sharepoint.com/personal/tina_chen_alp_global/Documents/FamilyMart/288+/SCO專案管理/全家288+/FamilyMart%20288+%20日營運時間軸.xlsx' },
+        { t:'全家288+ 進度更新（7/30）', d:'對外進度簡報，摘要當期完成事項、風險與下一步。', fmt:'pptx', up:'2026-07-30', cr:'', url:'https://alpglobal-my.sharepoint.com/personal/tina_chen_alp_global/Documents/Powerpoint/全家288+_進度更新_0730.pptx' },
+        { t:'全家288+ 時程總覽（時間軸）', d:'上線前衝刺時間軸，含 SIT、SOP 定版、教學、UAT 各關卡日期。', fmt:'md', up:'2026-07-14', cr:'', url:'' },
+        { t:'全家專案 WBS 甘特圖', d:'WBS 甘特視覺化，與里程碑追蹤表同步維護。', fmt:'md', up:'2026-07-13', cr:'', url:'' }
       ]},
 
       { code:'b', zh:'8月 UAT 計畫', docs:[
-        { t:'八月 UAT 測試計劃', d:'ASC 聯合測試計畫 8/03–8/31：逐日項目、預計步驟與預計成果，含林口倉參訪與教育訓練。', fmt:'xlsx', up:'2026-08-04', url:'https://alpglobal-my.sharepoint.com/personal/tina_chen_alp_global/Documents/FamilyMart/%5B全家288+%5D%20跨部門資共享/八月UAT測試計劃.xlsx' },
-        { t:'FM288 測試計劃書 v1', d:'測試範圍、環境、角色分工、進出場條件與排程。', fmt:'md', up:'2026-07-21', url:'' },
-        { t:'FM288 測試案例表 v1', d:'逐案測試步驟、預期結果與執行紀錄欄位。', fmt:'xlsx', up:'2026-07-21', url:'' }
+        { t:'八月 UAT 測試計劃', d:'ASC 聯合測試計畫 8/03–8/31：逐日項目、預計步驟與預計成果，含林口倉參訪與教育訓練。', fmt:'xlsx', up:'2026-08-04', cr:'', url:'https://alpglobal-my.sharepoint.com/personal/tina_chen_alp_global/Documents/FamilyMart/%5B全家288+%5D%20跨部門資共享/八月UAT測試計劃.xlsx' },
+        { t:'FM288 測試計劃書 v1', d:'測試範圍、環境、角色分工、進出場條件與排程。', fmt:'md', up:'2026-07-21', cr:'', url:'' },
+        { t:'FM288 測試案例表 v1', d:'逐案測試步驟、預期結果與執行紀錄欄位。', fmt:'xlsx', up:'2026-07-21', cr:'', url:'' }
       ]},
 
       { code:'c', zh:'設備追蹤議題', docs:[
-        { t:'設備追蹤議題 — 16 節點總清單', d:'16 個設備節點的待確認議題、負責人與狀態。', fmt:'xlsx', up:'—', url:'' }
+        { t:'設備追蹤議題 — 16 節點總清單', d:'16 個設備節點的待確認議題、負責人與狀態。', fmt:'xlsx', up:'—', cr:'', url:'' }
       ]},
 
       { code:'d', zh:'待與營運追蹤議題', docs:[
-        { t:'A1 各作業區域追蹤議題', d:'依作業區域彙整的待辦與待確認議題，含負責人與狀態。', fmt:'xlsx', up:'2026-08-04', url:'https://alpglobal-my.sharepoint.com/personal/tina_chen_alp_global/Documents/FamilyMart/%5B全家288+%5D%20跨部門資共享/00_A1%20各作業區域追蹤議題_260717.xlsx' }
+        { t:'A1 各作業區域追蹤議題', d:'依作業區域彙整的待辦與待確認議題，含負責人與狀態。', fmt:'xlsx', up:'2026-08-04', cr:'', url:'https://alpglobal-my.sharepoint.com/personal/tina_chen_alp_global/Documents/FamilyMart/%5B全家288+%5D%20跨部門資共享/00_A1%20各作業區域追蹤議題_260717.xlsx' }
       ]},
 
       { code:'e', zh:'待與 IT 追蹤議題', docs:[
-        { t:'全家288+ 通知情境清單', d:'系統間通知與例外告警的情境、觸發條件與收件對象。', fmt:'xlsx', up:'2026-07-22', url:'https://alpglobal-my.sharepoint.com/personal/tina_chen_alp_global/Documents/FamilyMart/288+/SCO專案管理/全家288+/全家288+_通知情境清單.xlsx' },
-        { t:'待與 IT 追蹤議題', d:'IT 系統相關待確認事項與回覆狀態。', fmt:'xlsx', up:'—', url:'' }
+        { t:'全家288+ 通知情境清單', d:'系統間通知與例外告警的情境、觸發條件與收件對象。', fmt:'xlsx', up:'2026-07-22', cr:'', url:'https://alpglobal-my.sharepoint.com/personal/tina_chen_alp_global/Documents/FamilyMart/288+/SCO專案管理/全家288+/全家288+_通知情境清單.xlsx' },
+        { t:'待與 IT 追蹤議題', d:'IT 系統相關待確認事項與回覆狀態。', fmt:'xlsx', up:'—', cr:'', url:'' }
       ]},
 
       { code:'f', zh:'待與 TEL 追蹤議題', docs:[
-        { t:'待與 TEL 追蹤議題', d:'TEL 負責範圍的待確認事項與回覆狀態。', fmt:'xlsx', up:'—', url:'' }
+        { t:'待與 TEL 追蹤議題', d:'TEL 負責範圍的待確認事項與回覆狀態。', fmt:'xlsx', up:'—', cr:'', url:'' }
       ]}
     ]},
 
   { code:'3', zh:'全家給永聯的作業', en:'Action Items from FamilyMart',
     blurb:'全家指派、需由永聯回覆或處理的項目。回覆前先看狀態欄，避免重複回覆或蓋掉別人的答案。',
     docs:[
-      { t:'OMEGA2 事前確認事項 — 回覆表', d:'全家／日方事前確認題目與永聯逐題回覆（含 BCP、停電與四級以上地震應變）。', fmt:'xlsx', up:'2026-07-23', url:'https://alpglobal-my.sharepoint.com/:x:/r/personal/tina_chen_alp_global/_layouts/15/Doc.aspx?sourcedoc=%7BB8BBDE5B-77F2-421E-A817-CB5C8881599F%7D&file=OMEGA2%E4%BA%8B%E5%89%8D%E7%A2%BA%E8%AA%8D%E4%BA%8B%E9%A0%85_%E5%9B%9E%E8%A6%86%E8%A1%A8.xlsx&action=default&mobileredirect=true' },
-      { t:'全家廠商大會 — 廠商問題彙整', d:'廠商現場提問彙整、統一回覆與待確認狀態（含入庫棧板規格 1.1×1.1 議題，仍待確認）。', fmt:'xlsx', up:'2026-08-04', url:'https://alpglobal-my.sharepoint.com/:x:/r/personal/tina_chen_alp_global/_layouts/15/Doc.aspx?sourcedoc=%7B8B26980F-3628-4DEA-98B4-CEF11D51F797%7D&file=%E5%85%A8%E5%AE%B6%E5%BB%A0%E5%95%86%E5%A4%A7%E6%9C%83_%E5%BB%A0%E5%95%86%E5%95%8F%E9%A1%8C%E5%BD%99%E6%95%B4.xlsx&action=default&mobileredirect=true' }
+      { t:'OMEGA2 事前確認事項 — 回覆表', d:'全家／日方事前確認題目與永聯逐題回覆（含 BCP、停電與四級以上地震應變）。', fmt:'xlsx', up:'2026-07-23', cr:'', url:'https://alpglobal-my.sharepoint.com/:x:/r/personal/tina_chen_alp_global/_layouts/15/Doc.aspx?sourcedoc=%7BB8BBDE5B-77F2-421E-A817-CB5C8881599F%7D&file=OMEGA2%E4%BA%8B%E5%89%8D%E7%A2%BA%E8%AA%8D%E4%BA%8B%E9%A0%85_%E5%9B%9E%E8%A6%86%E8%A1%A8.xlsx&action=default&mobileredirect=true' },
+      { t:'全家廠商大會 — 廠商問題彙整', d:'廠商現場提問彙整、統一回覆與待確認狀態（含入庫棧板規格 1.1×1.1 議題，仍待確認）。', fmt:'xlsx', up:'2026-08-04', cr:'', url:'https://alpglobal-my.sharepoint.com/:x:/r/personal/tina_chen_alp_global/_layouts/15/Doc.aspx?sourcedoc=%7B8B26980F-3628-4DEA-98B4-CEF11D51F797%7D&file=%E5%85%A8%E5%AE%B6%E5%BB%A0%E5%95%86%E5%A4%A7%E6%9C%83_%E5%BB%A0%E5%95%86%E5%95%8F%E9%A1%8C%E5%BD%99%E6%95%B4.xlsx&action=default&mobileredirect=true' }
     ]},
 
   { code:'4', zh:'合約', en:'Contracts',
     blurb:'機密文件，僅供獲授權人員閱覽，請勿轉發。',
     docs:[
-      { t:'2026 物流年度委託契約書（永聯）', d:'機密。作業品質責任、權利義務、勞務處理費、缺貨標準與違約金、盤點原則、物流作業規範。', fmt:'docx', up:'2026-04-23', url:'https://alpglobal-my.sharepoint.com/:w:/r/personal/tina_chen_alp_global/_layouts/15/Doc.aspx?sourcedoc=%7BE0B5AEAC-1782-449D-A5DF-AC0683803DAD%7D&file=2026%E7%89%A9%E6%B5%81%E5%B9%B4%E5%BA%A6%E5%A7%94%E8%A8%97%E5%A5%91%E7%B4%84%E6%9B%B8_%E6%B0%B8%E8%81%AF-20260426.docx&action=default&mobileredirect=true' }
+      { t:'2026 物流年度委託契約書（永聯）', d:'機密。作業品質責任、權利義務、勞務處理費、缺貨標準與違約金、盤點原則、物流作業規範。', fmt:'docx', up:'2026-04-23', cr:'', url:'https://alpglobal-my.sharepoint.com/:w:/r/personal/tina_chen_alp_global/_layouts/15/Doc.aspx?sourcedoc=%7BE0B5AEAC-1782-449D-A5DF-AC0683803DAD%7D&file=2026%E7%89%A9%E6%B5%81%E5%B9%B4%E5%BA%A6%E5%A7%94%E8%A8%97%E5%A5%91%E7%B4%84%E6%9B%B8_%E6%B0%B8%E8%81%AF-20260426.docx&action=default&mobileredirect=true' }
     ]},
 
   { code:'5', zh:'其他參考資料', en:'Reference',
     blurb:'進倉規範與其他輔助文件。',
     docs:[
-      { t:'ASC 進貨規範（供應商大會版 v3）', d:'給供應商的最新進倉規範：棧板、堆疊高度、標籤、外箱與預約規則。以此版為準。', fmt:'pptx', up:'2026-07-06', url:'https://alpglobal-my.sharepoint.com/personal/tina_chen_alp_global/Documents/FamilyMart/288+/SCO專案管理/全家288+/ASC%20進貨規範%20for%20供應商大會_v3_260706.pptx' },
-      { t:'[SCO x ALP] 全家專案流程與議題', d:'各流程 PIC、SOP 進度與 C01 異形料架等待辦議題。', fmt:'pptx', up:'2026-07-10', url:'https://alpglobal-my.sharepoint.com/personal/tina_chen_alp_global/Documents/FamilyMart/288+/%5BSCO%20x%20ALP%5D%20全家專案流程與議題.pptx' }
+      { t:'ASC 進貨規範（供應商大會版 v3）', d:'給供應商的最新進倉規範：棧板、堆疊高度、標籤、外箱與預約規則。以此版為準。', fmt:'pptx', up:'2026-07-06', cr:'', url:'https://alpglobal-my.sharepoint.com/personal/tina_chen_alp_global/Documents/FamilyMart/288+/SCO專案管理/全家288+/ASC%20進貨規範%20for%20供應商大會_v3_260706.pptx' },
+      { t:'[SCO x ALP] 全家專案流程與議題', d:'各流程 PIC、SOP 進度與 C01 異形料架等待辦議題。', fmt:'pptx', up:'2026-07-10', cr:'', url:'https://alpglobal-my.sharepoint.com/personal/tina_chen_alp_global/Documents/FamilyMart/288+/%5BSCO%20x%20ALP%5D%20全家專案流程與議題.pptx' }
     ]}
 ];
 /* ▲▲▲ 以上是唯一需要編輯的區塊，以下是頁面程式，不用動 ▲▲▲ */
@@ -361,10 +365,12 @@ railEl.innerHTML = SECTIONS.map(sec => {
 
 /* ── rows ───────────────────────────────────────────────── */
 function rowHTML(d){
+  const cr = d.cr && d.cr !== '—'
+    ? `<span class="cr"><span class="lb">建立</span>${esc(d.cr)}</span>` : '';
   const inner = `
     <span class="t">${esc(d.t)}${d.url ? '' : '<span class="pill">待補連結</span>'}</span>
     <span class="fmt">${esc(d.fmt)}</span>
-    <span class="up">${esc(d.up)}</span>
+    <span class="dates"><span><span class="lb">更新</span>${esc(d.up)}</span>${cr}</span>
     <span class="d">${esc(d.d)}</span>`;
   return d.url
     ? `<a class="row" href="${esc(d.url)}" target="_blank" rel="noopener">${inner}</a>`
