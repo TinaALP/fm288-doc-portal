@@ -119,7 +119,7 @@ a{color:inherit}
 /* 展開／收合鈕：關閉時是 ＋，展開時是 －
    刻意做成小圓形，跟右邊方形的分類編號區隔開 */
 .sec > summary .tog{
-  flex:0 0 auto; position:relative; width:17px; height:17px;
+  flex:0 0 auto; position:relative; width:14px; height:14px;
   border:1.5px solid var(--ink); border-radius:50%; background:var(--paper);
   transition:background .12s;
 }
@@ -127,9 +127,9 @@ a{color:inherit}
 .sec > summary .tog::after{
   content:''; position:absolute; top:50%; left:50%; background:var(--ink);
 }
-.sec > summary .tog::before{width:8px; height:1.5px; transform:translate(-50%,-50%)}
+.sec > summary .tog::before{width:6px; height:1.5px; transform:translate(-50%,-50%)}
 .sec > summary .tog::after{
-  width:1.5px; height:8px; transform:translate(-50%,-50%);
+  width:1.5px; height:6px; transform:translate(-50%,-50%);
   transition:opacity .12s, transform .12s;
 }
 .sec[open] > summary .tog::after{opacity:0; transform:translate(-50%,-50%) scaleY(.2)}
