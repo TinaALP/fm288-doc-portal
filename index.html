@@ -13,10 +13,9 @@
 /* 固定淺色模式：不隨系統深色設定變化
    配色來源：Navy #0C2C47｜Green #2D5652｜Yellow #E2A54D
              Aqua #97D3CD｜Warm #EFEAE6｜Mint #E4F2EA
-   角色分工：黃＝互動狀態（展開鈕、hover、focus）
-             青＝結構標籤（分類編號）
-             薄荷＝滑過列的底色
-             海軍藍＝文字與強分隔線｜綠＝次要文字 */
+   角色分工：海軍藍＝文字、強分隔線、分類編號方塊
+             綠＝次要文字｜黃＝互動狀態（展開鈕、hover、focus）
+             薄荷＝滑過列的底色｜暖白＝頁面底色 */
 :root{
   color-scheme:light;
   --paper:#EFEAE6;          /* 暖底 */
@@ -27,7 +26,6 @@
   --grey-2:#5F706B;         /* 綠灰，標籤與細節 */
   --rule:#D8D2CC;           /* 暖色分隔線 */
   --signal:#E2A54D;         /* Yellow */
-  --aqua:#97D3CD;           /* Aqua */
   --focus:#A9721F;          /* 深黃，focus 外框在淺底上才看得見 */
   --display:"Playfair Display","Songti TC","Noto Serif TC","Times New Roman",Georgia,serif;
   --sans:"PingFang TC","Hiragino Sans","Noto Sans TC","Microsoft JhengHei",-apple-system,"Segoe UI",Roboto,sans-serif;
@@ -139,7 +137,7 @@ a{color:inherit}
 
 .sec > summary .code{
   font-family:var(--mono); font-size:.7rem; font-weight:400; letter-spacing:.1em;
-  color:var(--ink); background:var(--aqua); padding:3px 8px;
+  color:var(--paper); background:var(--ink); padding:3px 8px;
 }
 .sec > summary .en{
   font-family:var(--mono); font-size:.68rem; font-weight:400;
