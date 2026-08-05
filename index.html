@@ -91,7 +91,14 @@ a{color:inherit}
 }
 .rail a.sub{font-size:.8125rem; padding:4px 8px 4px 26px}
 .rail a:hover{color:var(--ink); background:var(--hover)}
-.rail a.on{color:var(--ink); border-left-color:var(--signal); font-weight:600}
+/* .on = 目前選到的分類；.here = 捲動到的子分類 */
+.rail a.on{
+  color:var(--ink); background:var(--hover);
+  border-left-color:var(--signal); font-weight:600;
+}
+/* 選到的分類底下的子項：只鋪底色表示同一組，不搶黃色標記 */
+.rail a.sub.on{border-left-color:transparent; font-weight:400}
+.rail a.sub.here{color:var(--ink); font-weight:600}
 .rail .code,.rail .n{font-family:var(--mono); font-size:.72rem; color:var(--grey-2)}
 .rail a.on .code{color:var(--ink)}
 
@@ -107,46 +114,23 @@ a{color:inherit}
   letter-spacing:.06em; color:var(--grey-2);
 }
 
-.sec{border-bottom:1px solid var(--rule); scroll-margin-top:16px}
-.sec > summary{
-  display:flex; align-items:center; gap:12px; flex-wrap:wrap;
-  padding:16px 12px 16px 0; cursor:pointer; list-style:none;
-  font-family:var(--display); font-size:1.25rem; font-weight:600; letter-spacing:0;
+.sec{scroll-margin-top:16px}
+/* 搜尋時可能同時列出多個分類，之間拉開並加分隔線 */
+.sec + .sec{margin-top:44px; padding-top:36px; border-top:1px solid var(--rule)}
+.sec > h2{
+  display:flex; align-items:center; gap:12px; flex-wrap:wrap; margin:0 0 8px;
+  padding-bottom:12px; border-bottom:2px solid var(--ink);
+  font-family:var(--display); font-size:1.5rem; font-weight:600; letter-spacing:0;
 }
-.sec > summary::-webkit-details-marker{display:none}
-.sec > summary:hover{background:var(--hover)}
-.sec > summary:hover .stitle{box-shadow:inset 0 -2px 0 var(--signal)}
-
-/* 展開／收合鈕：關閉時是 ＋，展開時是 －
-   刻意做成小圓形，跟右邊方形的分類編號區隔開 */
-.sec > summary .tog{
-  flex:0 0 auto; position:relative; width:14px; height:14px;
-  border:1.5px solid var(--ink); border-radius:50%; background:var(--paper);
-  transition:background .12s;
-}
-.sec > summary .tog::before,
-.sec > summary .tog::after{
-  content:''; position:absolute; top:50%; left:50%; background:var(--ink);
-}
-.sec > summary .tog::before{width:6px; height:1.5px; transform:translate(-50%,-50%)}
-.sec > summary .tog::after{
-  width:1.5px; height:6px; transform:translate(-50%,-50%);
-  transition:opacity .12s, transform .12s;
-}
-.sec[open] > summary .tog::after{opacity:0; transform:translate(-50%,-50%) scaleY(.2)}
-.sec > summary:hover .tog{background:var(--signal)}
-.sec[open] > summary .tog{background:var(--signal)}
-
-.sec > summary .code{
+.sec > h2 .code{
   font-family:var(--mono); font-size:.7rem; font-weight:400; letter-spacing:.1em;
   color:var(--paper); background:var(--ink); padding:3px 8px;
 }
-.sec > summary .cnt{
+.sec > h2 .cnt{
   margin-left:auto; font-family:var(--mono); font-size:.72rem; font-weight:400;
   color:var(--grey-2); font-variant-numeric:tabular-nums; white-space:nowrap;
 }
-.secbody{padding-bottom:34px}
-.sec .blurb{margin:0 0 14px; font-size:.85rem; color:var(--grey-1); max-width:62ch}
+.sec .blurb{margin:0 0 18px; font-size:.85rem; color:var(--grey-1); max-width:62ch}
 
 .grp{margin-top:26px; scroll-margin-top:24px}
 .grp > h3{
@@ -199,7 +183,7 @@ footer{
   .rail{position:static}
   .rail > ol{display:flex; flex-wrap:wrap; gap:4px 16px}
   .rail ol ol{display:none}
-  .rail a{border-left:none; border-bottom:3px solid transparent; margin-left:0; padding:6px 0}
+  .rail a{border-left:none; border-bottom:3px solid transparent; margin-left:0; padding:6px 8px}
   .rail a.on{border-bottom-color:var(--signal)}
   .row{grid-template-columns:1fr auto}
   .row .dates{grid-column:2}
@@ -404,88 +388,105 @@ function rowHTML(d){
     : `<div class="row pending">${inner}</div>`;
 }
 
-/* 哪些分類目前是展開的（搜尋時一律全開） */
-const openCodes = new Set(SECTIONS.filter(s => s.open).map(s => s.code));
+/* ── 主從式版面 ─────────────────────────────────────────────
+   左側索引＝導覽，右側只顯示選中的那一類。
+   搜尋時例外：跨所有分類顯示符合的結果。
+   預設顯示帶 open:true 的那一類，沒有就顯示第一類。 */
+const defaultCode = (SECTIONS.find(s => s.open && liveSections.includes(s)) || liveSections[0]).code;
+let current = defaultCode;
+
+function sectionHTML(sec, blocks, searching){
+  const n    = blocks.reduce((a,b) => a + b.docs.length, 0);
+  const pend = blocks.reduce((a,b) => a + b.docs.filter(d => !d.url).length, 0);
+  const body = blocks.map(b => b.grp
+    ? `<div class="grp" id="${grpId(sec,b.grp)}">
+         <h3><span class="code">${b.grp.code}</span>${esc(b.grp.zh)}</h3>
+         <div class="rows">${b.docs.map(rowHTML).join('')}</div>
+       </div>`
+    : `<div class="rows">${b.docs.map(rowHTML).join('')}</div>`
+  ).join('');
+
+  return `<section class="sec" id="${secId(sec)}">
+    <h2>
+      <span class="code">${sec.code}</span>
+      <span class="stitle">${esc(sec.zh)}</span>
+      <span class="cnt">${n} 筆${pend ? `・${pend} 待補` : ''}</span>
+    </h2>
+    ${!searching && sec.blurb ? `<p class="blurb">${esc(sec.blurb)}</p>` : ''}
+    ${body}
+  </section>`;
+}
 
 function render(term){
-  const t = term.trim().toLowerCase();
+  const t = (term || '').trim().toLowerCase();
   const match = (d, sec, grp) =>
     (d.t + d.d + d.fmt + sec.zh + (grp ? grp.zh : '')).toLowerCase().includes(t);
 
+  /* 搜尋時跨所有分類；否則只顯示 current 那一類 */
+  const scope = t ? liveSections : liveSections.filter(s => s.code === current);
   let shown = 0;
-  const html = liveSections.map(sec => {
+
+  const html = scope.map(sec => {
     const blocks = blocksOf(sec)
-      .map(b => ({ sec:b.sec, grp:b.grp, docs: t ? b.docs.filter(d => match(d, sec, b.grp)) : b.docs }))
+      .map(b => ({ grp:b.grp, docs: t ? b.docs.filter(d => match(d, sec, b.grp)) : b.docs }))
       .filter(b => b.docs.length);
     if (!blocks.length) return '';
-    const n = blocks.reduce((a,b) => a + b.docs.length, 0);
-    shown += n;
-
-    const body = blocks.map(b => b.grp
-      ? `<div class="grp" id="${grpId(sec,b.grp)}">
-           <h3><span class="code">${b.grp.code}</span>${esc(b.grp.zh)}</h3>
-           <div class="rows">${b.docs.map(rowHTML).join('')}</div>
-         </div>`
-      : `<div class="rows">${b.docs.map(rowHTML).join('')}</div>`
-    ).join('');
-
-    const pend = blocks.reduce((a,b) => a + b.docs.filter(d => !d.url).length, 0);
-    const open = t ? true : openCodes.has(sec.code);
-
-    return `<details class="sec" id="${secId(sec)}"${open ? ' open' : ''}>
-      <summary>
-        <span class="tog" aria-hidden="true"></span>
-        <span class="code">${sec.code}</span>
-        <span class="stitle">${esc(sec.zh)}</span>
-        <span class="cnt">${n} 筆${pend ? `・${pend} 待補` : ''}</span>
-      </summary>
-      <div class="secbody">
-        ${!t && sec.blurb ? `<p class="blurb">${esc(sec.blurb)}</p>` : ''}
-        ${body}
-      </div>
-    </details>`;
+    shown += blocks.reduce((a,b) => a + b.docs.length, 0);
+    return sectionHTML(sec, blocks, !!t);
   }).join('');
 
   listEl.innerHTML = html ||
     `<p class="empty">找不到符合「${esc(term)}」的文件。試試「SOP」、「棧板」、「UAT」或「進貨」。</p>`;
-  hintEl.textContent = t ? `符合 ${shown} 筆` : `共 ${allDocs.length} 筆，分 ${liveSections.length} 類`;
 
-  /* 記住使用者手動展開／收合的狀態（搜尋中不記錄） */
-  listEl.querySelectorAll('details.sec').forEach(d => {
-    d.addEventListener('toggle', () => {
-      if (qEl.value.trim()) return;
-      const code = d.id.slice(4);
-      d.open ? openCodes.add(code) : openCodes.delete(code);
-    });
+  hintEl.textContent = t
+    ? `符合 ${shown} 筆（全部分類）`
+    : `共 ${allDocs.length} 筆，分 ${liveSections.length} 類・左側切換分類`;
+
+  /* 側欄標示：搜尋中不標任何一項 */
+  railEl.querySelectorAll('a').forEach(a => {
+    a.classList.toggle('on', !t && a.dataset.id.slice(4,5) === current);
   });
 }
 
-qEl.addEventListener('input', e => render(e.target.value));
-render('');
-
-/* ── 側欄點擊：先展開該分類再捲動 ────────────────────────── */
+/* ── 側欄點擊：切換右側顯示的分類 ──────────────────────────── */
 const smooth = !matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+function select(id, scroll){
+  const code = id.slice(4, 5);
+  if (!liveSections.some(s => s.code === code)) return;
+  current = code;
+  qEl.value = '';                              /* 切換分類時清掉搜尋 */
+  render('');
+  history.replaceState(null, '', '#' + id);    /* 網址可直接分享到某一類 */
+  if (scroll){
+    const target = document.getElementById(id) || listEl;
+    target.scrollIntoView({ behavior: smooth ? 'smooth' : 'auto', block:'start' });
+  }
+}
+
 railEl.addEventListener('click', e => {
   const a = e.target.closest('a');
   if (!a) return;
   e.preventDefault();
-  const id = a.dataset.id;
-  openCodes.add(id.slice(4, 5));
-  render(qEl.value);
-  const target = document.getElementById(id);
-  if (target) target.scrollIntoView({ behavior: smooth ? 'smooth' : 'auto', block:'start' });
+  select(a.dataset.id, true);
 });
 
-/* ── rail active state ──────────────────────────────────── */
-const links = [...railEl.querySelectorAll('a')];
+/* ── 開場：網址帶 #sec-2b 之類就直接跳到那一類 ─────────────── */
+const fromHash = /^#sec-\d/.test(location.hash) ? location.hash.slice(1) : null;
+if (fromHash) select(fromHash, true); else render('');
+
+qEl.addEventListener('input', e => render(e.target.value));
+
+/* 只在目前分類內追蹤子分類位置，捲動時標示側欄 */
 const spy = new IntersectionObserver(entries => {
+  if (qEl.value.trim()) return;
   entries.forEach(en => {
     if (!en.isIntersecting) return;
-    links.forEach(l => l.classList.toggle('on', l.dataset.id === en.target.id));
+    railEl.querySelectorAll('a.sub').forEach(l => l.classList.toggle('here', l.dataset.id === en.target.id));
   });
-}, { rootMargin:'-10% 0px -75% 0px' });
+}, { rootMargin:'-10% 0px -70% 0px' });
 
-function observe(){ document.querySelectorAll('.sec, .grp').forEach(el => spy.observe(el)); }
+function observe(){ listEl.querySelectorAll('.grp').forEach(el => spy.observe(el)); }
 observe();
 new MutationObserver(observe).observe(listEl, { childList:true });
 </script>
